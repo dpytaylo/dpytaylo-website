@@ -5,7 +5,6 @@ use yew::html::Scope;
 
 use crate::event_handler::EventHandler;
 use crate::graphics::Graphics;
-use crate::root::Root;
 
 pub struct Plugins {
     pub event_handler: Rc<EventHandler>,
@@ -13,9 +12,9 @@ pub struct Plugins {
 }
 
 impl Plugins {
-    pub fn new(scope: Scope<Root>, gl: WebGl2RenderingContext) -> Self {
+    pub fn new(gl: WebGl2RenderingContext) -> Self {
         Self {
-            event_handler: EventHandler::new(scope),
+            event_handler: EventHandler::new(),
             graphics: Graphics::new(gl),
         }
     }

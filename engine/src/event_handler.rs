@@ -5,8 +5,6 @@ use wasm_bindgen::JsCast;
 use web_sys::{KeyboardEvent, MouseEvent};
 use yew::html::Scope;
 
-use crate::root::{RootMessage, Root};
-
 pub enum Event {
     Resize((u32, u32)),
 
@@ -24,7 +22,7 @@ pub struct EventHandler {
 }
 
 impl EventHandler {
-    pub fn new(scope: Scope<Root>) -> Rc<Self> {
+    pub fn new() -> Rc<Self> {
         let this = Rc::new(Self {
             listeners: RefCell::new(Vec::with_capacity(4)),
 
@@ -46,7 +44,7 @@ impl EventHandler {
         let keydown_listener = EventListener::new(&window, "keydown", move |event| {
             let event = event.dyn_ref::<KeyboardEvent>().unwrap();
 
-            scope.send_message(RootMessage::UpdateDebugLabel(event.code().into()));
+            //scope.send_message(RootMessage::UpdateDebugLabel(event.code().into()));
             this_cloned.on_keydown.borrow_mut().push(event.code());
         });
 

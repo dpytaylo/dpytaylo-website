@@ -5,7 +5,7 @@ use png::{DecodingError, ColorType};
 use thiserror::Error;
 use web_sys::{WebGl2RenderingContext, WebGlTexture};
 
-use super::graphics_context::GraphicsContext;
+use super::extensions::{Extensions};
 
 type WebGl = WebGl2RenderingContext;
 
@@ -30,9 +30,9 @@ pub struct Texture {
 }
 
 impl Texture {
-    pub async fn new(ctx: &GraphicsContext, path: &str, use_near_filter: bool) -> Result<Self, TextureCreationError> {
-        let gl = &ctx.gl;
-
+    pub(super) async fn new(gl: WebGl2RenderingContext, extensions: &Extensions, path: &str, use_near_filter: bool) 
+        -> Result<Self, TextureCreationError>
+    {
         let texture = gl.create_texture();
         gl.bind_texture(WebGl::TEXTURE_2D, texture.as_ref());
 
@@ -142,8 +142,12 @@ impl Texture {
             // We don't use this extension for the near filtering due to this bug:
             // https://stackoverflow.com/questions/63607395/why-does-webgls-ext-texture-filter-anisotropic-force-linear-interpolation-when
             // https://jsfiddle.net/greggman/zhq5ry04/
-            if let Some(ext) = ctx.ext_texture_filter_anisotropic.as_ref() {
-                gl.tex_parameterf(WebGl::TEXTURE_2D, ext.texture_max_anisotropy_ext, ext.max_texture_max_anisotropy_ext_value);
+            if let Some(ext) = extensions.ext_texture_filter_anisotropic.as_ref() {
+                gl.tex_parameterf(
+                    WebGl::TEXTURE_2D,
+                    ext.texture_max_anisotropy_ext,
+                    ext.max_texture_max_anisotropy_ext_value,
+                );
             }
         }
 
@@ -153,7 +157,7 @@ impl Texture {
         gl.bind_texture(WebGl::TEXTURE_2D, None);
 
         Ok(Self {
-            gl: ctx.gl.clone(),
+            gl,
             inner: texture,
         })
     }

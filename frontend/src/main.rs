@@ -4,23 +4,7 @@
 #![feature(vec_into_raw_parts)]
 #![feature(yeet_expr)]
 
-mod graphics;
-mod resource_manager;
-mod utils;
-mod camera;
-mod event_handler;
-mod loop_context;
-mod main_context;
-mod material_render_state;
-mod material;
-mod model3d;
-mod object;
-mod plugins;
-mod root_context;
 mod root;
-mod sprite3d;
-mod world;
-mod wos;
 
 use gloo::net::http::Request;
 use log::Level;

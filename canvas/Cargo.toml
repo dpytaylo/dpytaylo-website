@@ -1,5 +1,5 @@
 [package]
-name = "frontend"
+name = "canvas"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,9 +12,9 @@ anyhow = "1.0.69"
 # blend-inspect-rs = "0.3.0"
 # blend-rs = "0.3.0"
 
-canvas = { path = "../canvas" }
 common = { path = "../common" }
 console_error_panic_hook = "0.1.7"
+engine = { path = "../engine" }
 itertools = "0.10.5"
 getrandom = { version = "0.2", features = ["js"] }
 gloo = "0.8.0"

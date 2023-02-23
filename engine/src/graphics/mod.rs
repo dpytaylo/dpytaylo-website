@@ -1,4 +1,4 @@
-pub mod graphics_context;
+pub mod extensions;
 pub mod mesh;
 pub mod pnt_vertex;
 pub mod render_data;
@@ -19,12 +19,14 @@ use web_sys::WebGl2RenderingContext;
 
 use crate::wos::Wos;
 
-use self::graphics_context::{GraphicsContext, ExtTextureFilterAnisotropic};
+use self::extensions::{Extensions, ExtTextureFilterAnisotropic};
+use self::texture::{Texture, TextureCreationError};
 
 type WebGl = WebGl2RenderingContext;
 
 pub struct Graphics {
-    pub context: GraphicsContext,
+    pub gl: WebGl2RenderingContext,    
+    pub extensions: Extensions,
 }
 
 // #[derive(Debug, Deserialize)]
@@ -46,19 +48,19 @@ impl Graphics {
 
         let ext_texture_filter_anisotropic = Self::get_ext_texture_filter_anisotropic(&gl);
         
-        let context = GraphicsContext {
-            gl,
+        let extensions = Extensions {
             ext_texture_filter_anisotropic,
         };
 
-        log::info!("Graphics context: {context:#?}");
+        log::info!("Loaded extensions: {extensions:#?}");
 
         Self {
-            context,
+            gl,
+            extensions,
         }
     }
 
-    pub fn get_ext_texture_filter_anisotropic(gl: &WebGl2RenderingContext) -> Option<ExtTextureFilterAnisotropic> {
+    fn get_ext_texture_filter_anisotropic(gl: &WebGl2RenderingContext) -> Option<ExtTextureFilterAnisotropic> {
         match gl.get_extension("EXT_texture_filter_anisotropic") {
             Ok(Some(val)) => {
                 let max_texture_max_anisotropy_ext = Reflect::get(&val, &JsValue::from_str("MAX_TEXTURE_MAX_ANISOTROPY_EXT")).ok()?.as_f64()? as u32;
@@ -76,8 +78,12 @@ impl Graphics {
         }
     }
 
+    pub async fn load_texture(&self, path: &str, use_near_filter: bool) -> Result<Texture, TextureCreationError> {
+        Texture::new(self.gl.clone(), &self.extensions, path, use_near_filter).await
+    }
+
     pub fn render(&self, wol: Ref<Wos>, was_resized: Option<(i32, i32)>) {
-        let gl = &self.context.gl;
+        let gl = &self.gl;
 
         if let Some((width, height)) = was_resized {
             gl.viewport(0, 0, width, height);

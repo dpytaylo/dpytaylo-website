@@ -8,7 +8,7 @@ use scopeguard::defer;
 use tobj::Material;
 use web_sys::{WebGl2RenderingContext, WebGlVertexArrayObject, WebGlBuffer, WebGlUniformLocation};
 
-use crate::graphics::graphics_context::GraphicsContext;
+use crate::graphics::extensions::Extensions;
 use crate::graphics::{self, Graphics};
 use crate::graphics::mesh::{Mesh, MeshUsage, MeshType};
 use crate::graphics::pnt_vertex::PntVertex;
@@ -34,7 +34,7 @@ pub struct MaterialRenderState {
 }
 
 impl MaterialRenderState {
-    pub async fn new(manager: &ResourceManager, graphics: &GraphicsContext, material: Material) -> anyhow::Result<Rc<Self>> {
+    pub async fn new(manager: &ResourceManager, graphics: &Graphics, material: Material) -> anyhow::Result<Rc<Self>> {
         let gl = &graphics.gl;
         
         let vao = gl.create_vertex_array();
@@ -48,20 +48,23 @@ impl MaterialRenderState {
         )?;
 
         // TODO defer(?)
-        gl.bind_vertex_array(vao.as_ref());
-        gl.bind_buffer(WebGl::ARRAY_BUFFER, vbo.as_ref());
-        gl.bind_buffer(WebGl::ELEMENT_ARRAY_BUFFER, ibo.as_ref());
-        program.bind();
+        {
+            gl.bind_vertex_array(vao.as_ref());
+            gl.bind_buffer(WebGl::ARRAY_BUFFER, vbo.as_ref());
+            gl.bind_buffer(WebGl::ELEMENT_ARRAY_BUFFER, ibo.as_ref());
+            program.bind();
 
-        bind_vertex_info::<PntVertex>(&gl, program.as_raw());
+            defer! {
+                program.unbind();
+                gl.bind_buffer(WebGl::ELEMENT_ARRAY_BUFFER, None);
+                gl.bind_buffer(WebGl::ARRAY_BUFFER, None);
+                gl.bind_vertex_array(None);
+            }
 
-        program.unbind();
-        gl.bind_buffer(WebGl::ELEMENT_ARRAY_BUFFER, None);
-        gl.bind_buffer(WebGl::ARRAY_BUFFER, None);
-        gl.bind_vertex_array(None);
+            bind_vertex_info::<PntVertex>(&gl, program.as_raw());
+        }
 
-        let texture = Texture::new(
-            graphics,
+        let texture = graphics.load_texture(
             &format!("/assets/{}", material.diffuse_texture),
             true,
         )
@@ -69,7 +72,7 @@ impl MaterialRenderState {
         .with_context(|| format!("Texture: '/static/{}'", material.diffuse_texture))?;
         
         Ok(Rc::new(Self {
-            gl: graphics.gl.clone(),
+            gl: gl.clone(),
             material,
 
             vao,

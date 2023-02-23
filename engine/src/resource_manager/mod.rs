@@ -14,7 +14,8 @@ use nalgebra::{Vector3, Vector2};
 use tobj::{GPU_LOAD_OPTIONS, Model, LoadError};
 use web_sys::WebGl2RenderingContext;
 
-use crate::graphics::graphics_context::GraphicsContext;
+use crate::graphics::Graphics;
+use crate::graphics::extensions::Extensions;
 use crate::graphics::pnt_vertex::PntVertex;
 use crate::graphics::vertex::Vertex;
 use crate::material_render_state::MaterialRenderState;
@@ -122,7 +123,7 @@ impl ResourceManager {
         //Request::get(path)
     }
 
-    pub async fn load_world(&self, graphics: &GraphicsContext, data: (Vec<Model>, Result<Vec<tobj::Material>, LoadError>)) -> anyhow::Result<World> {
+    pub async fn load_world(&self, graphics: &Graphics, data: (Vec<Model>, Result<Vec<tobj::Material>, LoadError>)) -> anyhow::Result<World> {
         let (models, materials) = (data.0, data.1?);
 
         let mut objects: Vec<Rc<dyn Object>> = Vec::with_capacity(models.len());

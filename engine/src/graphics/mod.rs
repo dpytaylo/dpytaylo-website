@@ -20,7 +20,7 @@ use web_sys::WebGl2RenderingContext;
 use crate::wos::Wos;
 
 use self::extensions::{Extensions, ExtTextureFilterAnisotropic};
-use self::texture::{Texture, TextureCreationError};
+use self::texture::Texture;
 
 type WebGl = WebGl2RenderingContext;
 
@@ -36,6 +36,11 @@ pub struct Graphics {
 //     MAX_TEXTURE_MAX_ANISOTROPY_EXT: u32,
 //     TEXTURE_MAX_ANISOTROPY_EXT: u32,
 // }
+
+#[derive(Default)]
+pub struct GraphicsStatistics {
+    pub render_call_count: u32,
+}
 
 impl Graphics {
     pub fn new(gl: WebGl2RenderingContext) -> Self {
@@ -78,11 +83,11 @@ impl Graphics {
         }
     }
 
-    pub async fn load_texture(&self, path: &str, use_near_filter: bool) -> Result<Texture, TextureCreationError> {
+    pub async fn load_texture(&self, path: &str, use_near_filter: bool) -> anyhow::Result<Texture> {
         Texture::new(self.gl.clone(), &self.extensions, path, use_near_filter).await
     }
 
-    pub fn render(&self, wol: Ref<Wos>, was_resized: Option<(i32, i32)>) {
+    pub(crate) fn render(&self, wol: &Wos, was_resized: Option<(i32, i32)>) -> GraphicsStatistics {
         let gl = &self.gl;
 
         if let Some((width, height)) = was_resized {
@@ -98,10 +103,16 @@ impl Graphics {
         //     render_data.render(&self.gl);
         // }
 
+        let mut render_call_count = 0;
         for world in wol.worlds.iter() {
             for render_data in world.render_info.iter().map(|val| &val.render_data) {
                 render_data.render(&gl);
+                render_call_count += 1;
             }
+        }
+
+        GraphicsStatistics { 
+            render_call_count,
         }
     }
 }

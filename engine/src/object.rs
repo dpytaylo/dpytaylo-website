@@ -22,7 +22,7 @@ pub struct UpdateContext<'a> {
     pub wos: Ref<'a, Wos>,
     pub incoming_messages: &'a IncomingMessages,
 
-    pub projection_view: &'a Matrix4<f32>,
+    pub projection_view: Option<&'a Matrix4<f32>>,
 }
 
 #[derive(Default)]

@@ -4,16 +4,24 @@ use std::rc::Rc;
 use wasm_bindgen::JsCast;
 use web_sys::{WebGl2RenderingContext, HtmlCanvasElement};
 
+use crate::graphics::GraphicsStatistics;
 use crate::plugins::Plugins;
 use crate::wos::Wos;
 use crate::{resource_manager::ResourceManager};
 
 pub struct EngineContext {
     pub canvas: HtmlCanvasElement,
+    pub info: RefCell<EngineInfo>,
+
     pub manager: Rc<ResourceManager>,
 
     pub plugins: Plugins,
     wos: RefCell<Wos>,
+}
+
+#[derive(Default)]
+pub struct EngineInfo {
+    pub graphics: GraphicsStatistics,
 }
 
 impl EngineContext {
@@ -30,6 +38,7 @@ impl EngineContext {
 
         Rc::new(Self {
             canvas: canvas_element,
+            info: RefCell::default(),
             manager,
 
             plugins,

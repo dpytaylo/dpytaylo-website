@@ -1,4 +1,5 @@
 #![feature(async_closure)]
+#![feature(async_fn_in_trait)]
 #![feature(cell_update)]
 #![feature(strict_provenance)]
 #![feature(vec_into_raw_parts)]

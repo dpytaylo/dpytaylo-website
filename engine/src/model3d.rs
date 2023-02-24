@@ -52,7 +52,10 @@ impl Object for Model3d {
     }
 
     fn update(&self, ctx: &UpdateContext) -> UpdateReturn {
-        self.state.update_projection_view(ctx.projection_view);
+        if let Some(pv) = ctx.projection_view {
+            self.state.update_projection_view(pv);
+        }
+        
         UpdateReturn::default()
     }
 }

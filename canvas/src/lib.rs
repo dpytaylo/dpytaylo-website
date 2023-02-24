@@ -1,12 +1,13 @@
 #![feature(async_fn_in_trait)]
 
-pub mod canvas;
+mod app;
+pub mod cube;
 
 use engine::Engine;
 use web_sys::HtmlCanvasElement;
 
-use canvas::Canvas;
+use app::MyApp;
 
 pub async fn run(canvas: HtmlCanvasElement) {
-    Engine::run(canvas, Canvas::new()).await;
+    Engine::run(canvas, MyApp::new()).await;
 }

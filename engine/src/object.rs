@@ -1,11 +1,12 @@
-use std::{any::Any, cell::Ref};
+use std::any::Any;
 
 use nalgebra::Matrix4;
 
 use crate::{
     graphics::{
         render_data::RenderData,
-    }, resource_manager::ResourceManager, plugins::Plugins, wos::Wos, 
+    },
+    resource_manager::ResourceManager, plugins::Plugins, 
 };
 
 pub enum Message {
@@ -19,7 +20,6 @@ pub struct IncomingMessages {
 pub struct UpdateContext<'a> {
     pub manager: &'a ResourceManager,
     pub plugins: &'a Plugins,
-    pub wos: Ref<'a, Wos>,
     pub incoming_messages: &'a IncomingMessages,
 
     pub projection_view: Option<&'a Matrix4<f32>>,

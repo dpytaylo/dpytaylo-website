@@ -1,5 +1,3 @@
-use web_sys::WebGl2RenderingContext;
-
 #[derive(Debug)]
 pub struct Extensions {
     pub ext_texture_filter_anisotropic: Option<ExtTextureFilterAnisotropic>,

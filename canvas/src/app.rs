@@ -1,14 +1,12 @@
-use std::{rc::Rc, f32::consts::FRAC_PI_2, cell::Ref, sync::Arc};
+use std::f32::consts::FRAC_PI_2;
 
 use engine::{
     App,
-    context::EngineContext,
-    object::{IncomingMessages},
+    object::IncomingMessages,
     camera::{Camera, Direction},
-    world::World,
     UpdateContext,
 };
-use nalgebra::{Vector3, Perspective3};
+use nalgebra::Vector3;
 
 #[derive(Default)]
 pub struct MyApp {
@@ -27,20 +25,20 @@ impl MyApp {
 }
 
 impl App for MyApp {
-    async fn startup_system(&mut self, ctx: &Rc<EngineContext>, update_ctx: &mut UpdateContext) {
-        let world = ctx.manager.load_world(
+    async fn startup_system(&mut self, ctx: &mut UpdateContext<'_>) {
+        //let data = ctx.manager.load_obj_mtl("/assets/world.obj", "/assets/world.mtl").await.unwrap();
+        let data = ctx.manager.load_raw_scene_data("/assets/world.bin").await.unwrap();
+
+        let scene = ctx.manager.load_scene(
             &ctx.plugins.graphics,
-            ctx.manager.load_obj_mtl("/assets/world.obj", "/assets/world.mtl").await.unwrap(),
+            data,
         )
         .await
         .unwrap();
 
-        {
-            let mut wos = ctx.wos_mut();
-            wos.worlds.push(world);
-        }
+        ctx.scenes.push(scene);
 
-        update_ctx.camera = Some(Camera::new(
+        *ctx.camera = Some(Camera::new(
             Vector3::new(0.0, 0.0, 3.5),
             -FRAC_PI_2,
             0.0,
@@ -50,7 +48,7 @@ impl App for MyApp {
         ));
     }
 
-    async fn update(&mut self, ctx: &Rc<EngineContext>, update_ctx: &mut UpdateContext) {
+    async fn update(&mut self, ctx: &mut UpdateContext<'_>) {
         for code in ctx.plugins.event_handler.on_keydown() {
             match code.as_ref() {
                 "KeyW" => self.key_w = true,
@@ -71,7 +69,7 @@ impl App for MyApp {
             }
         }
 
-        let camera = update_ctx.camera.as_mut().unwrap();
+        let camera = ctx.camera.as_mut().unwrap();
         camera.do_movement(
             Direction {
                 forward: self.key_w,
@@ -79,23 +77,11 @@ impl App for MyApp {
                 left: self.key_a,
                 right: self.key_d,
             },
-            update_ctx.diff,
+            ctx.dt,
         );
 
         for (x, y) in ctx.plugins.event_handler.on_mousemove() {
             camera.rotate(x as f32, -y as f32);
         }
     }
-}
-
-pub async fn load_obj_mtl_with_texture_atlas(ctx: &EngineContext, path_to_obj: &str, path_to_mtl: &str) -> World {
-    let (models, materials) = ctx.manager.load_obj_mtl(path_to_obj, path_to_mtl).await.unwrap();
-    let materials = materials.unwrap();
-
-    // let mut objects = Vec::with_capacity(models.len());
-    // for model in models {
-    //     model.mesh
-    // }
-    
-    todo!();
 }

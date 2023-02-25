@@ -54,7 +54,7 @@ impl Camera {
         }
     }
 
-    pub fn do_movement(&mut self, direction: Direction, diff: f32) {
+    pub fn do_movement(&mut self, direction: Direction, dt: f32) {
         // if loop_ctx.key_w {
         //     loop_ctx.camera_pos += current_camera_speed * loop_ctx.camera_front;
         // }
@@ -71,7 +71,7 @@ impl Camera {
         //     loop_ctx.camera_pos += current_camera_speed * loop_ctx.camera_front.cross(&loop_ctx.camera_up).normalize();
         // }
         
-        let velocity = self.movement_speed * diff;
+        let velocity = self.movement_speed * dt;
 
         if direction.forward {
             self.position += velocity * self.front;

@@ -9,6 +9,7 @@ use tobj::Material;
 use web_sys::{WebGl2RenderingContext, WebGlVertexArrayObject, WebGlBuffer, WebGlUniformLocation};
 
 use crate::graphics::extensions::Extensions;
+use crate::graphics::material_data::MaterialData;
 use crate::graphics::{self, Graphics};
 use crate::graphics::mesh::{Mesh, MeshUsage, MeshType};
 use crate::graphics::pnt_vertex::PntVertex;
@@ -21,7 +22,7 @@ type WebGl = WebGl2RenderingContext;
 
 pub struct MaterialRenderState {
     gl: WebGl2RenderingContext,
-    material: Material,
+    material: MaterialData<f32>,
 
     vao: Option<WebGlVertexArrayObject>,
     vbo: Option<WebGlBuffer>,
@@ -34,7 +35,7 @@ pub struct MaterialRenderState {
 }
 
 impl MaterialRenderState {
-    pub async fn new(manager: &ResourceManager, graphics: &Graphics, material: Material) -> anyhow::Result<Rc<Self>> {
+    pub async fn new(manager: &ResourceManager, graphics: &Graphics, material: MaterialData<f32>) -> anyhow::Result<Rc<Self>> {
         let gl = &graphics.gl;
         
         let vao = gl.create_vertex_array();

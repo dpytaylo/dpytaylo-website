@@ -4,8 +4,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::future::Future;
 use std::io::{BufReader, Cursor};
-use std::mem;
-use std::rc::Rc;
+use std::mem::{self, ManuallyDrop};
 
 use anyhow::Context;
 use gloo::net::http::Request;
@@ -15,14 +14,16 @@ use tobj::{GPU_LOAD_OPTIONS, Model, LoadError};
 use web_sys::WebGl2RenderingContext;
 
 use crate::graphics::Graphics;
-use crate::graphics::extensions::Extensions;
+use crate::graphics::material_data::MaterialData;
+use crate::graphics::mesh_data::MeshData;
+use crate::graphics::model_data::ModelData;
 use crate::graphics::pnt_vertex::PntVertex;
 use crate::graphics::vertex::Vertex;
 use crate::material_render_state::MaterialRenderState;
 use crate::model3d::Model3d;
 use crate::object::Object;
+use crate::scene::Scene;
 use crate::utils::smart_pointers::crc_vec::{RawCrcVec, CrcVec};
-use crate::world::World;
 
 use self::resource::Resource;
 
@@ -31,21 +32,16 @@ pub struct ResourceManager {
 
     //raw_data: RefCell<HashMap<TypeId, RefCell<Vec<Box<dyn Any>>>>>,
     vertices: RefCell<HashMap<String, Resource<RawCrcVec>>>,
-    //shader_programs: HashMap<String, Resource>,
-
-    // TODO (?)
-    // graphics_context: GraphicsContext,
 }
 
 impl ResourceManager {
-    pub fn new(gl: WebGl2RenderingContext) -> Rc<Self> {
-        Rc::new(Self {
+    pub fn new(gl: WebGl2RenderingContext) -> Self {
+        Self {
             gl,
 
             //raw_data: RefCell::default(),
             vertices: RefCell::default(),
-            //shader_programs: HashMap::default(),
-        })
+        }
     }
 
     // pub fn get<T>(&self) -> Option<&T> {
@@ -105,7 +101,7 @@ impl ResourceManager {
         Ok(String::from_utf8(self.load(path).await?)?)
     }
 
-    pub async fn load_obj_mtl(&self, path_to_obj: &str, path_to_mtl: &str) -> anyhow::Result<(Vec<Model>, Result<Vec<tobj::Material>, LoadError>)> {
+    pub async fn load_obj_mtl(&self, path_to_obj: &str, path_to_mtl: &str) -> anyhow::Result<(Vec<ModelData<f32>>, Vec<MaterialData<f32>>)> {
         let obj = Request::get(path_to_obj).send().await?;
         let obj = obj.binary().await?;
         let mut obj_buf = BufReader::new(Cursor::new(obj));
@@ -113,20 +109,74 @@ impl ResourceManager {
         let mtl = Request::get(path_to_mtl).send().await?;
         let mtl = mtl.binary().await?;
 
-        Ok(tobj::load_obj_buf_async(&mut obj_buf, &GPU_LOAD_OPTIONS, move |_| {
+        let (models, materials) = tobj::load_obj_buf_async(&mut obj_buf, &GPU_LOAD_OPTIONS, move |_| {
             let mtl = tobj::load_mtl_buf(&mut BufReader::new(Cursor::new(&mtl)));
             async move { mtl }
-        }).await?)
+        }).await?;
+
+        let materials = materials?;
+
+        let mut model_data = Vec::with_capacity(models.len());
+        for model in models {
+            model_data.push(
+                ModelData {
+                    name: model.name,
+                    mesh: MeshData {
+                        positions: model.mesh.positions,
+                        vertex_color: model.mesh.vertex_color,
+                        normals: model.mesh.normals,
+                        texcoords: model.mesh.texcoords,
+                        indices: model.mesh.indices,
+                        face_arities: model.mesh.face_arities,
+                        texcoord_indices: model.mesh.texcoord_indices,
+                        normal_indices: model.mesh.normal_indices,
+                        material_id: model.mesh.material_id,
+                    }
+                }
+            )
+        }
+
+        let mut material_data = Vec::with_capacity(materials.len());
+        for material in materials {
+            material_data.push(
+                MaterialData {
+                    name: material.name,
+                    ambient: Vector3::from_row_slice(&material.ambient),
+                    diffuse: Vector3::from_row_slice(&material.diffuse),
+                    specular: Vector3::from_row_slice(&material.specular),
+                    shininess: material.shininess,
+                    dissolve: material.dissolve,
+                    optical_density: material.optical_density,
+                    ambient_texture: material.ambient_texture,
+                    diffuse_texture: material.diffuse_texture,
+                    specular_texture: material.specular_texture,
+                    normal_texture: material.normal_texture,
+                    shininess_texture: material.shininess_texture,
+                    dissolve_texture: material.dissolve_texture,
+                    illumination_model: material.illumination_model,
+                }
+            )
+        }        
+
+        Ok((model_data, material_data))
+    }
+
+    pub async fn load_raw_scene_data(&self, path: &str) -> anyhow::Result<(Vec<ModelData<f32>>, Vec<MaterialData<f32>>)> {
+        let data = Request::get(path).send().await?;
+        let data = data.binary().await?;
+
+        let result: (Vec<ModelData<f32>>, Vec<MaterialData<f32>>) = bincode::deserialize(&data)?;
+        Ok(result)
     }
 
     pub async fn load_texture(&self, path: &str) {
         //Request::get(path)
     }
 
-    pub async fn load_world(&self, graphics: &Graphics, data: (Vec<Model>, Result<Vec<tobj::Material>, LoadError>)) -> anyhow::Result<World> {
-        let (models, materials) = (data.0, data.1?);
+    pub async fn load_scene(&self, graphics: &Graphics, data: (Vec<ModelData<f32>>, Vec<MaterialData<f32>>)) -> anyhow::Result<Scene> {
+        let (models, materials) = data;
 
-        let mut objects: Vec<Rc<dyn Object>> = Vec::with_capacity(models.len());
+        let mut objects: Vec<Box<dyn Object>> = Vec::with_capacity(models.len());
         for mut model in models {
             log::info!("{}", model.name);
             
@@ -149,7 +199,7 @@ impl ResourceManager {
 
             let material_id = model.mesh.material_id.context("No material id")?;
             objects.push(
-                Rc::new(Model3d::new(
+                Box::new(Model3d::new(
                     vertices,
                     indices,
                     MaterialRenderState::new(self, graphics, materials[material_id].clone()).await?,
@@ -157,6 +207,6 @@ impl ResourceManager {
             );
         }
 
-        Ok(World::from_vec(objects))
+        Ok(Scene::from_vec(objects))
     }
 }

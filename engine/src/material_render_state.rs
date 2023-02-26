@@ -5,13 +5,12 @@ use std::{any::TypeId, ptr::NonNull};
 use anyhow::Context;
 use nalgebra::Matrix4;
 use scopeguard::defer;
-use tobj::Material;
-use web_sys::{WebGl2RenderingContext, WebGlVertexArrayObject, WebGlBuffer, WebGlUniformLocation};
+use web_sys::{WebGl2RenderingContext, WebGlVertexArrayObject, WebGlBuffer};
 
-use crate::graphics::extensions::Extensions;
 use crate::graphics::material_data::MaterialData;
-use crate::graphics::{self, Graphics};
-use crate::graphics::mesh::{Mesh, MeshUsage, MeshType};
+use crate::graphics::render_config::RenderConfig;
+use crate::graphics::Graphics;
+use crate::graphics::mesh::{Mesh, MeshType};
 use crate::graphics::pnt_vertex::PntVertex;
 use crate::graphics::render_state::{RenderState, AbstractRenderState, bind_vertex_info, bind_vbo_and_ibo, bind_vbo};
 use crate::graphics::shader_program::ShaderProgram;
@@ -109,13 +108,13 @@ impl Drop for MaterialRenderState {
 }
 
 impl AbstractRenderState for MaterialRenderState {
-    fn as_ptr(&self) -> (TypeId, NonNull<()>) {
+    fn as_raw(&self) -> (TypeId, NonNull<()>) {
         let ptr = self as *const Self as *mut ();
 
         (TypeId::of::<Self>(), NonNull::new(ptr).unwrap())
     }
 
-    fn render(&self, gl: &WebGl2RenderingContext, meshes: &Vec<Mesh>, was_changed: bool) {
+    fn render(&self, gl: &WebGl2RenderingContext, config: &RenderConfig, meshes: &Vec<Mesh>, was_changed: bool) {
         // TODO (?)
         if meshes.len() == 0 {
             return;
@@ -133,8 +132,8 @@ impl AbstractRenderState for MaterialRenderState {
 
         if was_changed {
             self.draw_count.set(match mesh_type {
-                MeshType::VboOnly => bind_vbo(&gl, &self.vbo, meshes),
-                MeshType::VboAndIbo => bind_vbo_and_ibo(&gl, &self.vbo, &self.ibo, meshes),
+                MeshType::VboOnly => bind_vbo(&gl, &config.mesh_usage, meshes, &self.vbo),
+                MeshType::VboAndIbo => bind_vbo_and_ibo(&gl, &config.mesh_usage, meshes, &self.vbo, &self.ibo),
             }); 
         }
         
@@ -159,10 +158,6 @@ impl AbstractRenderState for MaterialRenderState {
                 );
             }
         }
-    }
-
-    fn state_type_id(&self) -> TypeId {
-        TypeId::of::<Self>()
     }
 }
 

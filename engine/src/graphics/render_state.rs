@@ -6,15 +6,14 @@ use std::ptr::NonNull;
 use scopeguard::defer;
 use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlBuffer};
 
-use crate::graphics::mesh::MeshUsage;
-
-use super::mesh::Mesh;
+use super::mesh::{Mesh, MeshUsage};
+use super::render_config::RenderConfig;
 use super::vertex::{Vertex, VertexInfo};
 
 type WebGl = WebGl2RenderingContext;
 
 pub trait AbstractRenderState: 'static {
-    fn as_ptr(&self) -> (TypeId, NonNull<()>) {
+    fn as_raw(&self) -> (TypeId, NonNull<()>) {
         let ptr = self as *const Self as *mut ();
         (TypeId::of::<Self>(), unsafe { NonNull::new_unchecked(ptr) })
     }
@@ -31,11 +30,7 @@ pub trait AbstractRenderState: 'static {
         false
     }
 
-    fn render(&self, gl: &WebGl2RenderingContext, meshes: &Vec<Mesh>, was_changed: bool);
-
-    fn state_type_id(&self) -> TypeId {
-        TypeId::of::<Self>()
-    }
+    fn render(&self, gl: &WebGl2RenderingContext, config: &RenderConfig, meshes: &Vec<Mesh>, was_changed: bool);
 }
 
 pub trait RenderState<T>: AbstractRenderState
@@ -142,7 +137,7 @@ pub fn bind_vertex_info<T>(gl: &WebGl2RenderingContext, program: &WebGlProgram)
     }
 }
 
-pub fn bind_vbo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, meshes: &Vec<Mesh>) -> i32 {
+pub fn bind_vbo(gl: &WebGl2RenderingContext, mesh_usage: &MeshUsage, meshes: &Vec<Mesh>, vbo: &Option<WebGlBuffer>) -> i32 {
     gl.bind_buffer(WebGl::ARRAY_BUFFER, vbo.as_ref());
 
     defer! {
@@ -162,7 +157,11 @@ pub fn bind_vbo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, meshes: 
 
         draw_count = mesh.vertices.size as i32;
 
-        gl.buffer_data_with_u8_array(WebGl::ARRAY_BUFFER, vertices_slice, mesh.usage as u32);
+        gl.buffer_data_with_u8_array(
+            WebGl::ARRAY_BUFFER,
+            vertices_slice,
+            *mesh_usage as u32,
+        );
     }
     else {
         let mut united_vertices_buffer: Vec<u8> = Vec::with_capacity(
@@ -182,20 +181,24 @@ pub fn bind_vbo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, meshes: 
             draw_count += mesh.vertices.size as i32;
         }
 
-        // TODO maybe set the most fastest(?)
-        let mesh_usage = meshes.first().map(|val| val.usage).unwrap_or(MeshUsage::StaticDraw) as u32;
-
         gl.buffer_data_with_u8_array(
             WebGl::ARRAY_BUFFER,
             &united_vertices_buffer,
-            mesh_usage,
+            *mesh_usage as u32,
         );
     }
 
     draw_count
 }
 
-pub fn bind_vbo_and_ibo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, ibo: &Option<WebGlBuffer>, meshes: &Vec<Mesh>) -> i32 {
+pub fn bind_vbo_and_ibo(
+    gl: &WebGl2RenderingContext,
+    mesh_usage: &MeshUsage,
+    meshes: &Vec<Mesh>,
+    vbo: &Option<WebGlBuffer>,
+    ibo: &Option<WebGlBuffer>,
+) -> i32 
+{
     gl.bind_buffer(WebGl::ARRAY_BUFFER, vbo.as_ref());
     gl.bind_buffer(WebGl::ELEMENT_ARRAY_BUFFER, ibo.as_ref());
 
@@ -225,8 +228,9 @@ pub fn bind_vbo_and_ibo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, 
 
         draw_count = mesh_indices.size as i32;
 
-        gl.buffer_data_with_u8_array(WebGl::ARRAY_BUFFER, vertices_slice, mesh.usage as u32);
-        gl.buffer_data_with_u8_array(WebGl::ELEMENT_ARRAY_BUFFER, indices_slice, mesh.usage as u32);
+        let mesh_usage = *mesh_usage as u32;
+        gl.buffer_data_with_u8_array(WebGl::ARRAY_BUFFER, vertices_slice, mesh_usage);
+        gl.buffer_data_with_u8_array(WebGl::ELEMENT_ARRAY_BUFFER, indices_slice, mesh_usage);
     }
     else {
         let mut united_vertices_buffer: Vec<u8> = Vec::with_capacity(
@@ -261,8 +265,7 @@ pub fn bind_vbo_and_ibo(gl: &WebGl2RenderingContext, vbo: &Option<WebGlBuffer>, 
             draw_count += mesh_indices.size as i32;
         }
 
-        // TODO maybe set the most fastest(?)
-        let mesh_usage = meshes.first().map(|val| val.usage).unwrap_or(MeshUsage::StaticDraw) as u32;
+        let mesh_usage = *mesh_usage as u32;
 
         gl.buffer_data_with_u8_array(
             WebGl::ARRAY_BUFFER,

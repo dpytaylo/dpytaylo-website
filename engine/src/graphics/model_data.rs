@@ -1,4 +1,4 @@
-use std::{fmt::Debug, mem::ManuallyDrop};
+use std::fmt::Debug;
 
 use nalgebra::Scalar;
 use serde::{Deserialize, Serialize};

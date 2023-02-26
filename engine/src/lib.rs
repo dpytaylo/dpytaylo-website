@@ -21,7 +21,7 @@ pub mod sprite3d;
 use std::f32::consts::FRAC_PI_2;
 
 use camera::Camera;
-use context::EngineContext;
+use context::{EngineContext, EngineInfo};
 use gloo::utils::window;
 use graphics::GraphicsSettings;
 use nalgebra::Perspective3;
@@ -43,8 +43,11 @@ pub struct Engine;
 pub struct UpdateContext<'a> {
     pub manager: &'a mut ResourceManager,
     pub plugins: &'a mut Plugins,
+    pub info: &'a EngineInfo,
+
     pub scenes: &'a mut Vec<Scene>,
     pub camera: &'a mut Option<Camera>,
+    pub time: f64,
     pub dt: f32,
 }
 
@@ -57,8 +60,11 @@ impl Engine {
         let mut update_context = UpdateContext {
             manager: &mut ctx.manager,
             plugins: &mut ctx.plugins,
+            info: &ctx.info,
+
             scenes: &mut ctx.scenes,
             camera: &mut ctx.camera,
+            time: ctx.time,
             dt: 0.0,
         };
 
@@ -71,8 +77,11 @@ impl Engine {
         where T: App + 'static,
     {
         let new_time = js_sys::Date::now();
-        let dt = (new_time - ctx.timestamp) as f32;
+        let dt_f64 = new_time - ctx.timestamp;
+        let dt = dt_f64 as f32;
         ctx.timestamp = new_time;
+        ctx.time += dt_f64;
+        ctx.time %= std::f64::consts::PI * 1e6;
 
         let canvas = &ctx.canvas;
 
@@ -89,8 +98,11 @@ impl Engine {
         let mut update_context = UpdateContext { 
             manager: &mut ctx.manager,
             plugins: &mut ctx.plugins,
+            info: &ctx.info,
+
             scenes: &mut ctx.scenes,
             camera: &mut ctx.camera,
+            time: ctx.time,
             dt,
         };
 
@@ -128,14 +140,14 @@ impl Engine {
             }
         }
 
-        if ctx.camera.is_some() {
-            ctx.plugins.graphics.render(&ctx.scenes[0], was_resized);
+        ctx.info.graphics = if ctx.camera.is_some() {
+            ctx.plugins.graphics.render(&mut ctx.scenes[0], was_resized)
         }
         else {
-            let scene = Scene::new();
-            ctx.plugins.graphics.render(&scene, was_resized);
-        }
-        
+            let mut scene = Scene::new();
+            ctx.plugins.graphics.render(&mut scene, was_resized)
+        };
+
         Self::request_animation_frame(ctx, app);     
     }
     

@@ -3,7 +3,6 @@ use std::{cell::RefCell, rc::Rc, mem};
 use gloo::{events::EventListener, utils::window};
 use wasm_bindgen::JsCast;
 use web_sys::{KeyboardEvent, MouseEvent};
-use yew::html::Scope;
 
 pub enum Event {
     Resize((u32, u32)),

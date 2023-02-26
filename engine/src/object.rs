@@ -26,12 +26,12 @@ pub struct UpdateContext<'a> {
 }
 
 #[derive(Default)]
-pub struct LayerReturn {
+pub struct AddInSceneReturn {
     // TODO vec of mesh and render_state
     pub render_data: Option<RenderData>,
 }
 
-impl LayerReturn {
+impl AddInSceneReturn {
     pub fn render_data(mut self, render_data: RenderData) -> Self {
         self.render_data = Some(render_data);
         self
@@ -59,7 +59,7 @@ impl UpdateReturn {
 pub trait Object {
     fn as_any(&self) -> &dyn Any;
 
-    fn layer(&self) -> LayerReturn;
+    fn on_add_in_scene(&self) -> AddInSceneReturn;
     fn update(&self, ctx: &UpdateContext) -> UpdateReturn;
 }
 

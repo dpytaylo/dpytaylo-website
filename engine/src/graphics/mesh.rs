@@ -6,7 +6,7 @@ use super::vertex::Vertex;
 
 type WebGl = WebGl2RenderingContext;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum MeshUsage {
     // WebGL
     StaticDraw = WebGl::STATIC_DRAW as isize,
@@ -31,17 +31,15 @@ pub enum MeshType {
 pub struct Mesh {
     pub vertices: RawCrcVec,
     pub indices: Option<CrcVec<u32>>,
-    pub usage: MeshUsage,
 }
 
 impl Mesh {
-    pub fn new<T>(vertices: CrcVec<T>, indices: Option<CrcVec<u32>>, usage: MeshUsage) -> Self
+    pub fn new<T>(vertices: CrcVec<T>, indices: Option<CrcVec<u32>>) -> Self
         where T: Vertex,
     {
         Self {
             vertices: vertices.into(),
             indices,
-            usage,
         }
     }
 

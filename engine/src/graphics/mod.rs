@@ -5,13 +5,14 @@ pub mod mesh_data;
 pub mod mesh;
 pub mod model_data;
 pub mod pnt_vertex;
+pub mod render_config;
 pub mod render_data;
 pub mod render_state;
+pub mod scene_render_data;
 pub mod shader_program;
 pub mod texture;
 pub mod uniforms;
 pub mod vertex;
-pub mod world_render_data;
 
 use js_sys::Reflect;
 use nalgebra::Vector4;
@@ -32,7 +33,7 @@ pub struct Graphics {
     pub extensions: Extensions,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct GraphicsStatistics {
     pub render_call_count: u32,
 }
@@ -89,7 +90,7 @@ impl Graphics {
         Texture::new(self.gl.clone(), &self.extensions, path, use_near_filter).await
     }
 
-    pub(crate) fn render(&self, scene: &Scene, was_resized: Option<(i32, i32)>) -> GraphicsStatistics {
+    pub(crate) fn render(&self, scene: &mut Scene, was_resized: Option<(i32, i32)>) -> GraphicsStatistics {
         let settings = &self.settings;
         let gl = &self.gl;
 
@@ -108,10 +109,9 @@ impl Graphics {
         gl.enable(WebGl::DEPTH_TEST);
 
         let mut render_call_count = 0;
-        for info in &scene.render_info {
+        for info in &mut scene.render_info {
             info.render_data.render(&gl);
             render_call_count += 1;
-            
         }
 
         GraphicsStatistics { 

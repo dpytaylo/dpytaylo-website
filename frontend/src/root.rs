@@ -2,6 +2,7 @@ use std::cell::Ref;
 use std::f32::consts::FRAC_PI_2;
 use std::rc::Rc;
 
+use common::root_message::RootMessage;
 use gloo::utils::window;
 
 use nalgebra::{Perspective3, Vector3};
@@ -20,13 +21,9 @@ use nalgebra as na;
 
 type WebGl = WebGl2RenderingContext;
 
-pub enum RootMessage {
-    UpdateDebugLabel(AttrValue),
-}
-
 pub struct Root {
     canvas: NodeRef,
-    debug_label: AttrValue,
+    debug_label: Html,
 }
 
 impl Component for Root {
@@ -61,7 +58,7 @@ impl Component for Root {
 
         Self {
             canvas: NodeRef::default(),
-            debug_label: AttrValue::default(),
+            debug_label: Html::default(),
         }
     }
 
@@ -86,16 +83,17 @@ impl Component for Root {
         }
     }
 
-    fn rendered(&mut self, _ctx: &Context<Self>, first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
         if !first_render {
             return;
         }
 
         //let root_context = Rc::clone(&self.context);
         let canvas = self.canvas.cast::<HtmlCanvasElement>().unwrap();
+        let scope = ctx.link().clone();
 
         spawn_local(async move {
-            canvas::run(canvas).await;
+            canvas::run(canvas, move |msg| scope.send_message(msg)).await;
         });
     }
 

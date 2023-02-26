@@ -3,9 +3,10 @@ use std::rc::Rc;
 
 use crate::graphics::mesh::MeshUsage;
 use crate::graphics::pnt_vertex::PntVertex;
+use crate::graphics::render_config::RenderConfig;
 use crate::graphics::render_data::RenderData;
 use crate::material_render_state::MaterialRenderState;
-use crate::object::{Object, LayerReturn, UpdateReturn, UpdateContext};
+use crate::object::{Object, UpdateReturn, UpdateContext, AddInSceneReturn};
 use crate::utils::smart_pointers::crc_vec::CrcVec;
 
 pub struct Model3d {
@@ -32,7 +33,7 @@ impl Object for Model3d {
         self
     }
 
-    fn layer(&self) -> LayerReturn {
+    fn on_add_in_scene(&self) -> AddInSceneReturn {
         let indices = if !self.indices.is_empty() {
             Some(CrcVec::clone(&self.indices))
         }
@@ -40,12 +41,15 @@ impl Object for Model3d {
             None
         };
 
-        LayerReturn::default()
+        AddInSceneReturn::default()
             .render_data(
                 RenderData::new(
+                    RenderConfig {
+                        mesh_usage: MeshUsage::StaticDraw, // TODO
+                        has_transparent: false,
+                    },
                     CrcVec::clone(&self.vertices),
                     indices,
-                    MeshUsage::StaticDraw, // TODO
                     Rc::clone(&self.state),
                 )
             )

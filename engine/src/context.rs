@@ -18,11 +18,12 @@ pub(crate) struct EngineContext {
     pub scenes: Vec<Scene>,
 
     pub timestamp: f64,
+    pub time: f64, // max value % PI = 0
     pub camera: Option<Camera>,
     pub incoming_messages: IncomingMessages,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct EngineInfo {
     pub graphics: GraphicsStatistics,
 }
@@ -48,6 +49,7 @@ impl EngineContext {
             scenes: Vec::new(),
 
             timestamp: js_sys::Date::now(),
+            time: 0.0,
             camera: None,
             incoming_messages: IncomingMessages::default(),
         })

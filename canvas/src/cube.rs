@@ -1,5 +1,5 @@
 use engine::{
-    object::{Object, LayerReturn, UpdateReturn, UpdateContext},
+    object::{Object, UpdateReturn, UpdateContext},
     utils::smart_pointers::crc_vec::CrcVec,
     graphics::{render_data::RenderData, mesh::{MeshUsage, Mesh}, render_state::{AbstractRenderState, RenderState}, pnt_vertex::PntVertex}
 };

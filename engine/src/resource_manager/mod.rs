@@ -4,13 +4,13 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::future::Future;
 use std::io::{BufReader, Cursor};
-use std::mem::{self, ManuallyDrop};
+use std::mem;
 
 use anyhow::Context;
 use gloo::net::http::Request;
 use itertools::izip;
 use nalgebra::{Vector3, Vector2};
-use tobj::{GPU_LOAD_OPTIONS, Model, LoadError};
+use tobj::GPU_LOAD_OPTIONS;
 use web_sys::WebGl2RenderingContext;
 
 use crate::graphics::Graphics;
@@ -29,8 +29,6 @@ use self::resource::Resource;
 
 pub struct ResourceManager {
     gl: WebGl2RenderingContext,
-
-    //raw_data: RefCell<HashMap<TypeId, RefCell<Vec<Box<dyn Any>>>>>,
     vertices: RefCell<HashMap<String, Resource<RawCrcVec>>>,
 }
 
@@ -38,43 +36,9 @@ impl ResourceManager {
     pub fn new(gl: WebGl2RenderingContext) -> Self {
         Self {
             gl,
-
-            //raw_data: RefCell::default(),
             vertices: RefCell::default(),
         }
     }
-
-    // pub fn get<T>(&self) -> Option<&T> {
-    //     self.raw_data
-    //         .borrow()
-    //         .get(&TypeId::of::<T>())
-    //         .map(|val| val.downcast_ref())
-    //         .flatten()
-    // }
-
-    // pub fn get_mut<T>(&self) {
-    //     unimplemented!();
-    // }
-
-    // TODO replace this function: make get_rc_vector of vertices not mesh (!)
-    // Issue: mvp matrix
-    // pub async fn get_mesh<Str, T, F, Fut>(&self, name: Str, mut if_not_found: F) -> Result<Res<Mesh<T>>, ()>
-    //     where Str: AsRef<str> + ToString,
-    //           T: Vertex + 'static,
-    //           F: FnMut() -> Fut,
-    //           Fut: Future<Output = Result<Vec<T>, ()>>,
-    // {
-    //     if let Some(val) = self.meshes.borrow().get(name.as_ref()) {
-    //         return Ok(val.new_pointer::<Mesh<T>>()?);
-    //     };
-
-    //     let value = if_not_found().await?;
-    //     let resource = Resource::new(Mesh::new(&self.gl, value));
-    //     let result = resource.new_pointer::<Mesh<T>>()?;
-
-    //     self.meshes.borrow_mut().insert(name.to_string(), resource);
-    //     Ok(result)
-    // }
 
     pub async fn get_vertices<Str, T, F, Fut>(&self, name: Str, mut if_not_found: F) -> Result<CrcVec<T>, ()>
         where Str: AsRef<str> + Into<String>,

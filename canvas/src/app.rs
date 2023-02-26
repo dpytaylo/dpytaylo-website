@@ -1,5 +1,6 @@
 use std::f32::consts::FRAC_PI_2;
 
+use common::root_message::RootMessage;
 use engine::{
     App,
     object::IncomingMessages,
@@ -7,9 +8,14 @@ use engine::{
     UpdateContext,
 };
 use nalgebra::Vector3;
+use yew::{html, Html};
+use yew::html::Scope;
 
-#[derive(Default)]
-pub struct MyApp {
+pub struct MyApp<T>
+    where T: FnMut(RootMessage),
+{
+    pub root_callback: T,
+
     pub incoming_messages: IncomingMessages,
 
     pub key_w: bool,
@@ -18,13 +24,25 @@ pub struct MyApp {
     pub key_d: bool,
 }
 
-impl MyApp {
-    pub fn new() -> Self {
-        Self::default()
+impl<T> MyApp<T>
+    where T: FnMut(RootMessage),
+{
+    pub fn new(root_callback: T) -> Self {
+        Self {
+            root_callback,
+            incoming_messages: IncomingMessages::default(),
+
+            key_w: false,
+            key_a: false,
+            key_s: false,
+            key_d: false,
+        }
     }
 }
 
-impl App for MyApp {
+impl<T> App for MyApp<T>
+    where T: FnMut(RootMessage),
+{
     async fn startup_system(&mut self, ctx: &mut UpdateContext<'_>) {
         //let data = ctx.manager.load_obj_mtl("/assets/world.obj", "/assets/world.mtl").await.unwrap();
         let data = ctx.manager.load_raw_scene_data("/assets/world.bin").await.unwrap();
@@ -49,6 +67,15 @@ impl App for MyApp {
     }
 
     async fn update(&mut self, ctx: &mut UpdateContext<'_>) {
+        let html_message = format!("Debug info:\n{:#?}", ctx.info)
+            .split('\n')
+            .map(|val| 
+                html! { <p>{val}</p> }
+            )
+            .collect::<Html>();
+
+        (self.root_callback)(RootMessage::UpdateDebugLabel(html_message));
+
         for code in ctx.plugins.event_handler.on_keydown() {
             match code.as_ref() {
                 "KeyW" => self.key_w = true,

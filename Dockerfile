@@ -26,8 +26,6 @@ FROM rustlang/rust:nightly-bullseye as runner
 COPY --from=builder /app/target/release/server /app/
 # /target/site contains our JS/WASM/CSS, etc.
 COPY --from=builder /app/target/site /app/site
-# Copy Cargo.toml if it’s needed at runtime
-COPY --from=builder /app/Cargo.toml /app/
 WORKDIR /app
 
 EXPOSE 8080

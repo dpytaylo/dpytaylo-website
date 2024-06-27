@@ -12,10 +12,11 @@ pub fn Footer() -> impl IntoView {
                     <ExtAnchor href="https://www.rust-lang.org/">"Rust"</ExtAnchor>
                     " & "
                     <ExtAnchor href="https://leptos.dev/">"Leptos"</ExtAnchor>
+                    "."
                 </p>
 
                 <Await
-                    future=|| get_current_year()
+                    future=get_current_year
                     let:data
                 >
                     <p class="text-center">

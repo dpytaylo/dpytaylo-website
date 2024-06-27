@@ -2,7 +2,6 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
-use crate::error_template::{AppError, ErrorTemplate};
 use crate::pages::about_me::AboutMe;
 use crate::pages::contacts::Contacts;
 use crate::pages::error_page_template::ErrorPageTemplate;

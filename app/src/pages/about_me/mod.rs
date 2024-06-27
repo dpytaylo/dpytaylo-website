@@ -22,13 +22,17 @@ pub fn AboutMe() -> impl IntoView {
                 <div class="mx-auto max-w-screen-lg">
                     <div class="mx-2">
                         <div class="text-center">
-                            <p class="
-                                text-5xl font-black leading-normal
-                                bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text
-                            ">
-                                "Dmitry Pytaylo"
-                            </p>
-                            <p class="text-2xl">"Junior Backend Developer"</p>
+                            <h1 class="text-5xl font-black leading-[1.1]">
+                                <span
+                                    class="
+                                        text-transparent bg-clip-text
+                                        bg-gradient-to-r from-[rgba(124,78,238,255)] via-purple-500 to-[rgba(211,77,188,255)]
+                                    "
+                                >
+                                    "Dmitry Pytaylo"
+                                </span>
+                            </h1>
+                            <p class="mt-1 text-2xl">"Junior Backend Developer"</p>
                         </div>
 
                         <p class="sm:hidden mt-2 text-xl text-center"><Anchor href="/contacts">"Contacts"</Anchor></p>
@@ -58,7 +62,7 @@ pub fn AboutMe() -> impl IntoView {
 
             <section class="mx-1 pb-12">
                 <div class="mx-auto max-w-screen-lg">
-                    <p class="mb-5 text-2xl text-center">"My primary programming stack consists of"</p>
+                    <h2 class="mb-5 text-2xl text-center">"My primary programming stack consists of"</h2>
                     <ShortOverview/>
                 </div>
             </section>
@@ -66,7 +70,7 @@ pub fn AboutMe() -> impl IntoView {
             <section class="py-16 bg-gradient-to-b from-gray-50">
                 <div class="mx-auto max-w-screen-lg">
                     <div class="mx-2">
-                        <p class="mb-5 text-3xl text-center">"Also, I have experience in these domains:"</p>
+                        <h2 class="mb-5 text-3xl text-center">"Also, I have experience in these domains:"</h2>
                         <div class="mx-auto flex flex-col gap-14 max-w-screen-md">
                             <Technologies/>
 
@@ -83,10 +87,10 @@ pub fn AboutMe() -> impl IntoView {
             <section class="py-16 bg-gradient-to-b from-gray-50">
                 <div class="mx-2">
                     <div class="mx-auto max-w-screen-lg">
-                        <p class="flex justify-center items-center text-4xl tracking-tighter">
+                        <h2 class="flex justify-center items-center text-4xl tracking-tighter">
                             <img src="/assets/icons/work.svg" class="inline-block w-10 h-10 mr-2" />
                             "My working experience"
-                        </p>
+                        </h2>
                     </div>
 
                     <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-screen-md bg-white">
@@ -113,10 +117,10 @@ pub fn AboutMe() -> impl IntoView {
 
             <section class="py-16 bg-gradient-to-b from-gray-50">
                 <div class="mx-auto max-w-screen-lg">
-                    <p class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
+                    <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                         <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
                         "My education"
-                    </p>
+                    </h2>
                     <p class="mx-1 mb-4 text-center text-xl">
                         "Currently, I'm in my second year of studying Computer Science (Java) at "
                         <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/ESDE"</ExtAnchor>
@@ -140,10 +144,10 @@ pub fn AboutMe() -> impl IntoView {
 
             <section class="py-16 bg-gradient-to-b from-gray-50">
                 <div class="mx-auto max-w-screen-lg">
-                    <p class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
+                    <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                         <img src="/assets/icons/description_icon.svg" class="inline-block w-10 h-10 mr-2" />
                         "My certificates"
-                    </p>
+                    </h2>
 
                     <div class="mx-5">
                         <div class="mx-auto p-5 max-w-screen-md border rounded-2xl shadow-xl hmw:grid hmw:grid-cols-2 bg-white">

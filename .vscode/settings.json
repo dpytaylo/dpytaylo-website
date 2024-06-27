@@ -1,0 +1,30 @@
+{
+    "[rust]": {
+        "editor.formatOnSave": true
+    },
+
+    "rust-analyzer.procMacro.ignored": {
+        "leptos_macro": [
+            // optional:
+            "component",
+            "server"
+        ],
+    },
+    
+    "tailwindCSS.includeLanguages": {
+        "rust": "html",
+        "*.rs": "html"
+    },
+
+    "files.associations": {
+        "*.rs": "rust"
+    },
+
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": true
+    },
+
+    "css.validate": true,
+}

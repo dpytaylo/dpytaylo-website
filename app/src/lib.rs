@@ -28,7 +28,7 @@ pub fn App() -> impl IntoView {
             "
         </Style>
 
-        <Stylesheet id="leptos" href="/pkg/start-axum-workspace.css"/>
+        <Stylesheet id="leptos" href="/pkg/main.css"/>
         <Title text="dpytaylo"/>
 
         <Router fallback=|| {

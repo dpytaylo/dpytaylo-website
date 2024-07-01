@@ -26,7 +26,7 @@ pub fn PetProjects() -> impl IntoView {
                 ": "
                 <ExtAnchor href="https://github.com/dpytaylo/tic-tac-toe-discord-bot">"GitHub"</ExtAnchor>
                 ", "
-                <ExtAnchor href="https://www.youtube-nocookie.com/embed/ap8j1Ht-Oxk?si=zIhSZCNANxVldQvj">"YouTube"</ExtAnchor>
+                <ExtAnchor href="https://www.youtube.com/watch?v=ap8j1Ht-Oxk">"YouTube"</ExtAnchor>
                 "."
             </p>
             <p>"A Discord bot for playing tic-tac-toe, demonstrating skills in bot development and real-time interaction using Rust."</p>

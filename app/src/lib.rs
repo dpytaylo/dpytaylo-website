@@ -11,6 +11,7 @@ mod atoms;
 mod components;
 pub mod error_template;
 mod pages;
+mod utils;
 
 #[component]
 pub fn App() -> impl IntoView {

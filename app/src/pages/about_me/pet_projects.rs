@@ -1,10 +1,24 @@
 use leptos::*;
 
 use crate::atoms::external_anchor::ExtAnchor;
+use crate::atoms::masonry::Masonry;
+use crate::utils::Rem;
+
+const CARD_MAX_WIDTH_PX: f64 = 384.0;
 
 #[component]
 pub fn PetProjects() -> impl IntoView {
-    let projects = [(
+    let projects: Vec<_> = [(
+        "/assets/previews/website.webp",
+        "Personal website",
+        view! {
+            <p>
+                "This website is built using the Leptos Rust fullstack framework, showcasing my skills in web development and design."
+            </p>
+        }.into_view(),
+    ),
+    (
+        "/assets/previews/tic-tac-toe.webp",
         "Tic-tac-toe Discord bot",
         view! {
             <p>
@@ -19,6 +33,7 @@ pub fn PetProjects() -> impl IntoView {
         }.into_view(),
     ),
     (
+        "/assets/previews/api-error-derive.webp",
         "api-error-derive",
         view! {
             <p>
@@ -31,6 +46,7 @@ pub fn PetProjects() -> impl IntoView {
         }.into_view(),
     ),
     (
+        "/assets/previews/simple-messenger.webp",
         "simple-messenger",
         view! {
             <p>
@@ -46,27 +62,34 @@ pub fn PetProjects() -> impl IntoView {
         }.into_view(),
     )]
     .into_iter()
-    .map(|val| view! {
-        <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-screen-md">
-            <div class="p-6 border rounded-xl shadow-md bg-white">
-                <p class="text-xl text-center font-bold">{val.0}</p>
-                <p class="mt-2">
-                    {val.1}
-                </p>
+    .map(|val| {
+        view! {
+            <div class="border rounded-xl overflow-hidden">
+                <img src=val.0 class="w-full h-56 object-cover" />
+                <div class="p-6 shadow-md bg-white">
+                    <h2 class="text-xl text-center font-bold">{val.1}</h2>
+                    <p class="mt-2">
+                        {val.2}
+                    </p>
+                </div>
             </div>
-        </div>
+        }
     })
-    .collect_view();
+    .collect();
 
     view! {
         <section class="px-2 py-16 bg-gradient-to-b from-gray-50">
             <div class="mx-auto max-w-screen-lg">
-                <p class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
+                <h1 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                     <img src="/assets/icons/settings_heart.svg" class="inline-block w-10 h-10 mr-2" />
                     "My pet projects"
-                </p>
+                </h1>
 
-                {projects}
+                <Masonry
+                    elements=projects
+                    max_card_width_px=CARD_MAX_WIDTH_PX
+                    gap=Rem(0.75)
+                />
             </div>
         </section>
     }

@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos_icons::Icon;
 
-use crate::atoms::external_anchor::ExtAnchor;
+use crate::atoms::{anchor::Anchor, external_anchor::ExtAnchor};
 
 #[derive(Clone, Copy, PartialEq)]
 pub enum CurrentPage {
@@ -13,11 +13,17 @@ pub enum CurrentPage {
 #[component]
 pub fn Header(current_page: CurrentPage) -> impl IntoView {
     view! {
-        <header class="flex-shrink-0 sticky w-full top-0 left-0 h-12 bg-white/[.93] backdrop-blur border-b border-gray-200 z-10">
-            <div class="max-w-screen-xl h-full flex flex-wrap items-center justify-between mx-auto">
-                <span class="ml-8 text-2xl font-header whitespace-nowrap select-none" alt="dpytaylo logo">
-                    "dpytaylo"
-                </span>
+        <header class="px-6 flex-shrink-0 sticky w-full top-0 left-0 h-12 bg-white/[.93] backdrop-blur border-b border-gray-200 z-10">
+            <div class="mx-auto max-w-screen-xl h-full flex items-center justify-between">
+                <div class="ml-4 hmw:ml-0 hmw:w-full hmw:max-w-48">
+                    <Anchor
+                        href="/"
+                        class="flex mx-auto w-fit h-12 items-center text-2xl font-header whitespace-nowrap select-none"
+                        alt="dpytaylo logo"
+                    >
+                        <span>"dpytaylo"</span>
+                    </Anchor>
+                </div>
 
                 <input
                     type="checkbox"
@@ -103,7 +109,7 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
                 </div>
 
                 <label for="menu_button" class="
-                    hmw:hidden mr-8 w-10 h-10 rounded-lg hover:bg-gray-100 bg-menu-icon bg-cover cursor-pointer
+                    hmw:hidden w-10 h-10 rounded-lg hover:bg-gray-100 bg-menu-icon bg-cover cursor-pointer
                     menu-button-label
                 ">
                     <span class="sr-only">"Open main menu"</span>

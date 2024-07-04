@@ -13,4 +13,4 @@ LEPTOS_SITE_ROOT=site
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+The code of this project is licensed under the MIT License. See the LICENSE file for details.

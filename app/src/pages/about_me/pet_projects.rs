@@ -13,6 +13,12 @@ pub fn PetProjects() -> impl IntoView {
         "Personal website",
         view! {
             <p>
+                <span class="underline">"Links"</span>
+                ": "
+                <ExtAnchor href="https://github.com/dpytaylo/dpytaylo-website">"GitHub"</ExtAnchor>
+                "."
+            </p>
+            <p>
                 "This website is built using the Leptos Rust fullstack framework, showcasing my skills in web development and design."
             </p>
         }.into_view(),

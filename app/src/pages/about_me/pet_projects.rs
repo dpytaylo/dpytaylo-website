@@ -70,7 +70,7 @@ pub fn PetProjects() -> impl IntoView {
     .into_iter()
     .map(|val| {
         view! {
-            <div class="border rounded-xl overflow-hidden">
+            <div class="border rounded-xl shadow-md overflow-hidden">
                 <img src=val.0 class="w-full h-56 object-cover" />
                 <div class="p-6 shadow-md bg-white">
                     <h2 class="text-xl text-center font-bold">{val.1}</h2>

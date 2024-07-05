@@ -154,8 +154,8 @@ pub fn AboutMe() -> impl IntoView {
                         "My certificates"
                     </h2>
 
-                    <div class="mx-5">
-                        <div class="mx-auto p-5 max-w-screen-md border rounded-2xl shadow-xl hmw:grid hmw:grid-cols-2 bg-white">
+                    <div class="mx-2">
+                        <div class="mx-auto p-5 max-w-screen-md border rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
                             <img
                                 src="/assets/summer_camp/esde_summer_camp_2023_certificate_screenshot.webp"
                                 class="block mx-auto mb-5 hmw:mb-0 h-96 border"

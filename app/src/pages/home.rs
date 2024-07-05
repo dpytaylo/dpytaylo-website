@@ -9,6 +9,8 @@ use crate::{
     },
 };
 
+pub const HOME_URL: &str = "/";
+
 #[component]
 pub fn HomePage() -> impl IntoView {
     view! {

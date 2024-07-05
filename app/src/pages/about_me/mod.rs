@@ -5,13 +5,18 @@ use technologies::Technologies;
 
 use crate::{
     atoms::{anchor::Anchor, external_anchor::ExtAnchor},
-    components::footer::Footer,
-    components::header::{CurrentPage, Header},
+    components::{
+        footer::Footer,
+        header::{CurrentPage, Header},
+    },
+    pages::contacts::CONTACTS_URL,
 };
 
 mod pet_projects;
 mod short_overview;
 mod technologies;
+
+pub const ABOUT_ME_URL: &str = "/about_me";
 
 #[component]
 pub fn AboutMe() -> impl IntoView {
@@ -195,7 +200,7 @@ pub fn AboutMe() -> impl IntoView {
                     <div class="mx-5 hmw:mx-0">
                         <p class="text-center text-2xl hmw:text-2xl">
                             "If you have any further questions, please "
-                            <a href="/links" class="text-blue-500 hover:text-blue-400">
+                            <a href=CONTACTS_URL class="text-blue-500 hover:text-blue-400">
                                 "contact me"
                             </a>
                             "."

@@ -9,6 +9,8 @@ use crate::{
     },
 };
 
+pub const CONTACTS_URL: &str = "/contacts";
+
 #[component]
 pub fn Contacts() -> impl IntoView {
     view! {

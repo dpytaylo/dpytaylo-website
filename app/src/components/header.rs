@@ -1,7 +1,10 @@
 use leptos::*;
 use leptos_icons::Icon;
 
-use crate::atoms::{anchor::Anchor, external_anchor::ExtAnchor};
+use crate::{
+    atoms::{anchor::Anchor, external_anchor::ExtAnchor},
+    pages::{about_me::ABOUT_ME_URL, contacts::CONTACTS_URL, home::HOME_URL},
+};
 
 #[derive(Clone, Copy, PartialEq)]
 pub enum CurrentPage {
@@ -17,7 +20,7 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
             <div class="mx-auto max-w-screen-xl h-full flex items-center justify-between">
                 <div class="ml-4 hmw:ml-0 hmw:w-full hmw:max-w-48">
                     <Anchor
-                        href="/"
+                        href=HOME_URL
                         class="flex mx-auto w-fit h-12 items-center text-2xl font-header whitespace-nowrap select-none"
                         alt="dpytaylo logo"
                     >
@@ -43,7 +46,7 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
                     ">
                         <li>
                             <a
-                                href="/"
+                                href=HOME_URL
                                 class="hover:text-blue-700"
                                 class=("text-blue-700", move || current_page == CurrentPage::Home)
                             >
@@ -52,7 +55,7 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
                         </li>
                         <li>
                             <a
-                                href="/about_me"
+                                href=ABOUT_ME_URL
                                 class="hover:text-blue-700"
                                 class=("text-blue-700", move || current_page == CurrentPage::AboutMe)
                             >
@@ -61,7 +64,7 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
                         </li>
                         <li>
                             <a
-                                href="/contacts"
+                                href=CONTACTS_URL
                                 class="hover:text-blue-700"
                                 class=("text-blue-700", move || current_page == CurrentPage::Links)
                             >

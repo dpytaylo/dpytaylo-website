@@ -224,7 +224,6 @@ pub fn Technologies() -> impl IntoView {
             />
             <Show
                 when=move || { each().is_empty() }
-                fallback=|| view! {}
             >
                 <p class="text-lg text-center">"Nothing was found."</p>
             </Show>

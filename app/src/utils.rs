@@ -85,7 +85,7 @@ impl ToPixels for Rem {
     fn to_pixels(&self) -> ReadSignal<Px> {
         let (pixels, set_pixels) = signal(Px::default());
 
-        let this = self.clone();
+        let this = *self;
         Effect::new(move |_| {
             let window = window();
             let document = document();

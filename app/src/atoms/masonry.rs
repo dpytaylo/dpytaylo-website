@@ -92,8 +92,6 @@ where
 
     let column_style = move || {
         let count = exp_column_count();
-        let gap = gap.clone();
-        let max_card_width_px = max_card_width_px.clone();
         move || {
             if count == 1 {
                 format!("gap: {gap}; max-width: {ONE_COLUMN_MAX_WIDTH_PX}px")
@@ -131,7 +129,7 @@ where
             <div
                 class="flex w-full flex-col"
                 style=column_style
-                node_ref=column_node_refs.read_untracked().first().unwrap().clone()
+                node_ref=*column_node_refs.read_untracked().first().unwrap()
             >
                 {elements}
             </div>

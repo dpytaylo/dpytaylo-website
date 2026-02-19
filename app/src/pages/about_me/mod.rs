@@ -111,7 +111,7 @@ pub fn AboutMe() -> impl IntoView {
                             <p class="mt-2 text-lg">"Developed Student's Hub system for own university under the EPAM specialists mentoring."</p>
                             <ol class="mt-2 list-disc list-inside text-gray-600">
                                 <li>"Inner freelance exchange system for university that works between students and companies."</li>
-                                <li>"Worked as a backend developer in the team of 3 people. Used technologies: Spring Boot, Hybernate, Liquibase, PostgreSQL."</li>
+                                <li>"Worked as a backend developer in the team of 3 people. Used technologies: Spring Boot, Hibernate, Liquibase, PostgreSQL."</li>
                             </ol>
                         </div>
                     </div>

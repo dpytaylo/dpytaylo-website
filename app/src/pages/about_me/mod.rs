@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use pet_projects::PetProjects;
 use short_overview::ShortOverview;
 use technologies::Technologies;
@@ -16,7 +16,7 @@ mod pet_projects;
 mod short_overview;
 mod technologies;
 
-pub const ABOUT_ME_URL: &str = "/about_me";
+pub const ABOUT_ME_URL: &str = "/about-me";
 
 #[component]
 pub fn AboutMe() -> impl IntoView {
@@ -99,7 +99,7 @@ pub fn AboutMe() -> impl IntoView {
                     </div>
 
                     <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-screen-md bg-white">
-                        <div class="p-6 border rounded-xl shadow-md">
+                        <div class="p-6 border border-gray-200 rounded-xl shadow-md">
                             <div class="flex justify-between text-lg">
                                 <div>
                                     <p class="text-lg font-bold">"Junior Java Web Developer"</p>
@@ -155,10 +155,10 @@ pub fn AboutMe() -> impl IntoView {
                     </h2>
 
                     <div class="mx-2">
-                        <div class="mx-auto p-5 max-w-screen-md border rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
+                        <div class="mx-auto p-5 max-w-screen-md border border-gray-200 rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
                             <img
                                 src="/assets/summer_camp/esde_summer_camp_2023_certificate_screenshot.webp"
-                                class="block mx-auto mb-5 hmw:mb-0 h-96 border"
+                                class="block mx-auto mb-5 hmw:mb-0 h-96 border border-gray-200"
                                 alt="Image of the certificate"
                             />
                             <div class="mx-auto w-fit text-base">

@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use leptos_icons::Icon;
 
 use crate::{
@@ -79,35 +79,35 @@ pub fn Header(current_page: CurrentPage) -> impl IntoView {
                         href="mailto:dpytaylo@gmail.com"
                     >
                         <span class="sr-only">"Email"</span>
-                        <Icon icon=icondata::BsEnvelopeFill width="1em" height="1em" class="w-6 h-6 text-gray-400 hover:text-gray-500 cursor-pointer" />
+                        <Icon icon=icondata::BsEnvelopeFill width="1em" height="1em" attr:class="w-6 h-6 text-gray-400 hover:text-gray-500 cursor-pointer" />
                     </ExtAnchor>
 
                     <ExtAnchor
                         href="https://www.linkedin.com/in/dmitry-pytaylo-a216bb261/"
                     >
                         <span class="sr-only">"LinkedIn"</span>
-                        <Icon icon=icondata::BsLinkedin width="1em" height="1em" class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
+                        <Icon icon=icondata::BsLinkedin width="1em" height="1em" attr:class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
                     </ExtAnchor>
 
                     <ExtAnchor
                         href="https://github.com/dpytaylo"
                     >
                         <span class="sr-only">"GitHub"</span>
-                        <Icon icon=icondata::BsGithub width="1em" height="1em" class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
+                        <Icon icon=icondata::BsGithub width="1em" height="1em" attr:class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
                     </ExtAnchor>
 
                     <ExtAnchor
                         href="https://t.me/dpytaylo"
                     >
                         <span class="sr-only">"Telegram"</span>
-                        <Icon icon=icondata::BsTelegram width="1em" height="1em" class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
+                        <Icon icon=icondata::BsTelegram width="1em" height="1em" attr:class="w-5 h-5 text-gray-400 hover:text-gray-500 cursor-pointer" />
                     </ExtAnchor>
 
                     <ExtAnchor
                         href="https://discord.com/users/362258590926372864"
                     >
                         <span class="sr-only">"Discord"</span>
-                        <Icon icon=icondata::BsDiscord width="1em" height="1em" class="w-6 h-6 text-gray-400 hover:text-gray-500 cursor-pointer" />
+                        <Icon icon=icondata::BsDiscord width="1em" height="1em" attr:class="w-6 h-6 text-gray-400 hover:text-gray-500 cursor-pointer" />
                     </ExtAnchor>
                 </div>
 

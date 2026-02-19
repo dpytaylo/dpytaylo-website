@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 use crate::atoms::external_anchor::ExtAnchor;
 
@@ -16,7 +16,7 @@ pub fn Footer() -> impl IntoView {
                 </p>
 
                 <Await
-                    future=get_current_year
+                    future=get_current_year()
                     let:data
                 >
                     <p class="text-center">

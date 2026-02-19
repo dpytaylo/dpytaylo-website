@@ -1,6 +1,40 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "*.html";
+@source "./app/src/**/*.rs";
+
+@theme {
+  --background-image-menu-icon: url("/assets/menu.svg");
+  --background-image-close-icon: url("/assets/close.svg");
+  --background-image-mail-icon: url("/assets/mail.svg");
+  --background-image-github-icon: url("/assets/github.svg");
+  --background-image-telegram-icon: url("/assets/telegram.svg");
+  --background-image-discord-icon: url("/assets/discord.svg");
+
+  --min-width-56: 14rem;
+
+  --breakpoint-hmw: 900px;
+
+  --font-inter: "Inter", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --background-size-300: 300%;
+
+  --animate-gradient: animatedgradient 9s ease infinite alternate;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 @layer base {
     @media (max-width: 899px) {

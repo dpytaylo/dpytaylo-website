@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use leptos_icons::Icon;
 
 use crate::{
@@ -29,9 +29,9 @@ pub fn Contacts() -> impl IntoView {
                                 transition-colors
                             "
                         >
-                            <Icon icon=icondata::BsEnvelopeFill width="1em" height="1em" class="w-5 h-5 text-gray-700" />
+                            <Icon icon=icondata::BsEnvelopeFill width="1em" height="1em" {..} class="w-5 h-5 text-gray-700" />
                             "Email"
-                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" class="w-4 h-4 text-gray-700" />
+                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" {..} class="w-4 h-4 text-gray-700" />
                         </ExtAnchor>
 
                         <ExtAnchor
@@ -42,9 +42,9 @@ pub fn Contacts() -> impl IntoView {
                                 transition-colors
                             "
                         >
-                            <Icon icon=icondata::BsLinkedin width="1em" height="1em" class="w-5 h-5 text-gray-700" />
+                            <Icon icon=icondata::BsLinkedin width="1em" height="1em" {..} class="w-5 h-5 text-gray-700" />
                             "LinkedIn"
-                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" class="w-4 h-4 text-gray-700" />
+                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" {..} class="w-4 h-4 text-gray-700" />
                         </ExtAnchor>
 
                         <ExtAnchor
@@ -55,9 +55,9 @@ pub fn Contacts() -> impl IntoView {
                                 transition-colors
                             "
                         >
-                            <Icon icon=icondata::BsGithub width="1em" height="1em" class="w-5 h-5 text-gray-700" />
+                            <Icon icon=icondata::BsGithub width="1em" height="1em" {..} class="w-5 h-5 text-gray-700" />
                             "GitHub"
-                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" class="w-4 h-4 text-gray-700" />
+                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" {..} class="w-4 h-4 text-gray-700" />
                         </ExtAnchor>
 
                         <ExtAnchor
@@ -68,9 +68,9 @@ pub fn Contacts() -> impl IntoView {
                                 transition-colors
                             "
                         >
-                            <Icon icon=icondata::BsTelegram width="1em" height="1em" class="w-5 h-5 text-gray-700" />
+                            <Icon icon=icondata::BsTelegram width="1em" height="1em" {..} class="w-5 h-5 text-gray-700" />
                             "Telegram"
-                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" class="w-4 h-4 text-gray-700" />
+                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" {..} class="w-4 h-4 text-gray-700" />
                         </ExtAnchor>
 
                         <ExtAnchor
@@ -81,9 +81,9 @@ pub fn Contacts() -> impl IntoView {
                                 transition-colors
                             "
                         >
-                            <Icon icon=icondata::BsDiscord width="1em" height="1em" class="w-5 h-5 text-gray-700" />
+                            <Icon icon=icondata::BsDiscord width="1em" height="1em" {..} class="w-5 h-5 text-gray-700" />
                             "Discord"
-                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" class="w-4 h-4 text-gray-700" />
+                            <Icon icon=icondata::BsBoxArrowUpRight width="1em" height="1em" {..} class="w-4 h-4 text-gray-700" />
                         </ExtAnchor>
                     </div>
                 </div>

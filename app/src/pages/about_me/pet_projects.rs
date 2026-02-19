@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 use crate::atoms::external_anchor::ExtAnchor;
 use crate::atoms::masonry::Masonry;
@@ -21,7 +21,7 @@ pub fn PetProjects() -> impl IntoView {
             <p>
                 "This website is built using the Leptos Rust fullstack framework, showcasing my skills in web development and design."
             </p>
-        }.into_view(),
+        }.into_any(),
     ),
     (
         "/assets/previews/tic-tac-toe.webp",
@@ -36,7 +36,7 @@ pub fn PetProjects() -> impl IntoView {
                 "."
             </p>
             <p>"A Discord bot for playing tic-tac-toe, demonstrating skills in bot development and real-time interaction using Rust."</p>
-        }.into_view(),
+        }.into_any(),
     ),
     (
         "/assets/previews/api-error-derive.webp",
@@ -49,7 +49,7 @@ pub fn PetProjects() -> impl IntoView {
                 "."    
             </p>
             <p>"A procedural macro for deriving error handling in Rust, aimed at simplifying error management in API development."</p>
-        }.into_view(),
+        }.into_any(),
     ),
     (
         "/assets/previews/simple-messenger.webp",
@@ -65,21 +65,21 @@ pub fn PetProjects() -> impl IntoView {
                 "A comprehensive full-stack application built using axum, sea-orm (PostgreSQL), redis, and leptos. "
                 "This project showcases advanced skills in building a robust and efficient messaging platform."
             </p>
-        }.into_view(),
+        }.into_any(),
     )]
     .into_iter()
     .map(|val| {
         view! {
-            <div class="border rounded-xl shadow-md overflow-hidden">
+            <div class="border border-gray-200 rounded-xl shadow-md overflow-hidden">
                 <img src=val.0 class="w-full h-56 object-cover" />
                 <div class="p-6 shadow-md bg-white">
                     <h2 class="text-xl text-center font-bold">{val.1}</h2>
-                    <p class="mt-2">
+                    <div class="mt-2">
                         {val.2}
-                    </p>
+                    </div>
                 </div>
             </div>
-        }
+        }.into_any()
     })
     .collect();
 
@@ -92,10 +92,11 @@ pub fn PetProjects() -> impl IntoView {
                 </h1>
 
                 <Masonry
-                    elements=projects
                     max_card_width_px=CARD_MAX_WIDTH_PX
                     gap=Rem(0.75)
-                />
+                >
+                    {projects}
+                </Masonry>
             </div>
         </section>
     }

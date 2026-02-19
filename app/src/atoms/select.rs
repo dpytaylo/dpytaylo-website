@@ -1,25 +1,32 @@
-use leptos::*;
+use leptos::prelude::*;
 use std::{fmt::Debug, str::FromStr};
 
-use super::select_option::SelectOption;
+use crate::atoms::select_option::SelectOption;
 
 #[component]
 pub fn Select<T, U>(
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
-    #[prop(into)] options: MaybeSignal<Vec<(T, U)>>,
+    #[prop(optional, into)] class: Option<Signal<String>>,
+    #[prop(into)] options: Signal<Vec<(T, U)>>,
     #[prop(into)] selected: ReadSignal<T>,
     #[prop(into)] set_selected: WriteSignal<T>,
 ) -> impl IntoView
 where
-    T: Clone + FromStr<Err: Debug> + Into<&'static str> + PartialEq + 'static,
-    U: IntoView + Clone + 'static,
+    T: Clone + FromStr<Err: Debug> + Into<&'static str> + PartialEq + Send + Sync + 'static,
+    U: IntoView + Clone + Send + Sync + 'static,
 {
     let on_change = move |ev| {
         let new_selected = event_target_value(&ev);
-        set_selected(new_selected.parse().unwrap());
+        set_selected.set(new_selected.parse().unwrap());
     };
 
-    let each = move || options.get().into_iter().enumerate();
+    let each = move || {
+        options
+            .read()
+            .iter()
+            .cloned()
+            .enumerate()
+            .collect::<Vec<_>>()
+    };
 
     view! {
         <select class=class on:change=on_change>

@@ -1,4 +1,5 @@
 pub mod anchor;
+pub mod content;
 pub mod external_anchor;
 pub mod knowledge_level;
 pub mod masonry;

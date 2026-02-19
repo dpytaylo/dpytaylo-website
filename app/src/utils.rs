@@ -1,4 +1,4 @@
-use leptos::{create_effect, create_signal, document, window, ReadSignal};
+use leptos::prelude::*;
 use std::fmt::{Debug, Display};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, PartialOrd)]
@@ -69,24 +69,24 @@ pub trait ToPixels {
 
 impl ToPixels for Zero {
     fn to_pixels(&self) -> ReadSignal<Px> {
-        let (pixels, _) = create_signal(Px::default());
+        let (pixels, _) = signal(Px::default());
         pixels
     }
 }
 
 impl ToPixels for Px {
     fn to_pixels(&self) -> ReadSignal<Px> {
-        let (pixels, _) = create_signal(*self);
+        let (pixels, _) = signal(*self);
         pixels
     }
 }
 
 impl ToPixels for Rem {
     fn to_pixels(&self) -> ReadSignal<Px> {
-        let (pixels, set_pixels) = create_signal(Px::default());
+        let (pixels, set_pixels) = signal(Px::default());
 
         let this = self.clone();
-        create_effect(move |_| {
+        Effect::new(move |_| {
             let window = window();
             let document = document();
 

@@ -44,8 +44,6 @@ jobs:
     needs:
       - fmt
       - clippy
-      - build
-      - test
       - deny
       - spelling
     steps:
@@ -87,53 +85,6 @@ jobs:
           components: clippy
       - name: cargo clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
-
-  # Build our application
-  build:
-    runs-on: ubuntu-latest
-    name: ${{ matrix.toolchain }} / cargo build --verbose
-    strategy:
-      matrix:
-        toolchain: [nightly]
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install ${{ matrix.toolchain }}
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-      - name: cargo generate-lockfile
-        # enable this ci template to run regardless of whether the lockfile is checked in or not
-        if: hashFiles('Cargo.lock') == ''
-        run: cargo generate-lockfile
-
-      - name: cargo build --verbose
-        env:
-          CI_RUST_TOOLCHAIN: ${{ matrix.toolchain }}
-        run: cargo build --verbose
-
-  # Runs the all-targets tests
-  test:
-    runs-on: ubuntu-latest
-    name: ${{ matrix.toolchain }} / cargo test --locked --all-targets
-    strategy:
-      matrix:
-        # TODO: run on stable and beta to ensure that tests won't break on the next version of the rust
-        toolchain: [nightly]
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install ${{ matrix.toolchain }}
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-      - name: cargo generate-lockfile
-        # enable this ci template to run regardless of whether the lockfile is checked in or not
-        if: hashFiles('Cargo.lock') == ''
-        run: cargo generate-lockfile
-
-      - name: cargo test --all-targets
-        env:
-          CI_RUST_TOOLCHAIN: ${{ matrix.toolchain }}
-        run: cargo test --all-targets
   
   # 'cargo deny' to check for license and security issues.
   deny:

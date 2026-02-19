@@ -36,34 +36,34 @@
   }
 }
 
-@layer base {
-    @media (max-width: 899px) {
-        #menu_button:checked ~ .menu-button-label {
-            @apply block absolute top-1 right-0 bg-close-icon
-        }
-        
-        #menu_button:checked ~ .menu-open-handler {
-            @apply absolute left-auto translate-x-0 top-0 right-0 w-80 h-screen flex flex-col items-stretch bg-slate-50 shadow-[-10px_0_60px_rgba(0,0,0,0.3)] justify-between
-        }
+@media (max-width: 899px) {
+  #menu_button:checked ~ .menu-button-label {
+    @apply mx-6 block absolute top-1 right-0 bg-close-icon;
+  }
 
-        #menu_button:checked ~ .menu-open-handler > ul {
-            @apply flex flex-col text-center text-xl mt-12
-        }
+  #menu_button:checked ~ .menu-open-handler {
+    @apply absolute top-0 right-0 left-auto translate-x-0 w-80 h-screen
+      flex flex-col items-stretch justify-between
+      bg-slate-50 shadow-[-10px_0_60px_rgba(0,0,0,0.3)];
+  }
 
-        #menu_button:checked ~ .menu-open-handler > ul > li {
-            @apply ml-0
-        }
+  #menu_button:checked ~ .menu-open-handler > ul {
+    @apply flex flex-col text-center text-xl mt-12;
+  }
 
-        #menu_button:checked ~ .menu-open-handler > ul > li > a {
-            @apply block pt-2 pb-2 w-full border-t border-gray-300
-        }
+  #menu_button:checked ~ .menu-open-handler > ul > li {
+    @apply mx-0;
+  }
 
-        #menu_button:checked ~ .menu-open-handler > ul > li:last-child > a {
-            @apply block pt-2 pb-2 w-full border-t border-b border-gray-300
-        }
+  #menu_button:checked ~ .menu-open-handler > ul > li > a {
+    @apply block w-full py-2 border-t border-gray-300;
+  }
 
-        #menu_button:checked ~ .menu-open-handler > ul > li:hover > a {
-            @apply bg-slate-100
-        }
-    }
+  #menu_button:checked ~ .menu-open-handler > ul > li:last-child > a {
+    @apply block w-full py-2 border-t border-b border-gray-300;
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul > li:hover > a {
+    @apply bg-slate-100;
+  }
 }

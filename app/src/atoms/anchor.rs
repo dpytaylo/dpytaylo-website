@@ -1,5 +1,5 @@
-use leptos::*;
-use leptos_router::A;
+use leptos::prelude::*;
+use leptos_router::components::A;
 
 #[component]
 pub fn Anchor(
@@ -11,7 +11,7 @@ pub fn Anchor(
     let class = class.unwrap_or_else(|| "text-blue-500 hover:text-blue-400".to_owned());
 
     view! {
-        <A href=href class=class attr:alt=alt>
+        <A href=href attr:class=class attr:alt=alt>
             {children.map(|val| val())}
         </A>
     }

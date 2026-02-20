@@ -1,5 +1,5 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 members = ["app", "frontend", "server"]
 
 [profile.dev]
@@ -15,28 +15,30 @@ lto = true
 opt-level = 'z'
 
 [workspace.dependencies]
-axum = "=0.7.5"
-cfg-if = "=1.0.0"
-chrono = "=0.4.38"
-console_error_panic_hook = "=0.1.7"
-icondata = "=0.3.1"
-http = "=1.1.0"
-leptos = { version = "=0.6.12", features = ["nightly"] }
-leptos_axum = "=0.6.12"
-leptos_icons = "=0.3.1"
-leptos_meta = { version = "=0.6.12", features = ["nightly"] }
-leptos_router = { version = "=0.6.12", features = ["nightly"] }
-leptos-use = "=0.10.10"
-strum = { version = "0.26.3", features = ["derive"] }
-thiserror = "=1.0.61"
-tokio = { version = "=1.38.0", features = ["full"] }
-tower = { version = "=0.4.13", features = ["full"] }
-tower-http = { version = "=0.5.2", features = ["full"] }
-tracing = "=0.1.40"
-tracing-subscriber = "=0.3.18"
-tracing-wasm = "=0.2.1"
-uuid = { version = "1.9.1", features = ["v7"] }
-wasm-bindgen = "=0.2.92"
+anyhow = "1.0.101"
+axum = "0.8.8"
+cfg-if = "1.0.4"
+chrono = "0.4.43"
+console_error_panic_hook = "0.1.7"
+icondata = "0.7.0"
+http = "1.4.0"
+leptos = { version = "0.8.16", features = ["nightly"] }
+leptos_axum = "0.8.8"
+leptos_icons = "0.7.1"
+leptos_meta = "0.8.6"
+leptos_router = { version = "0.8.12", features = ["nightly"] }
+leptos-use = "0.18.0"
+strum = { version = "0.27.2", features = ["derive"] }
+thiserror = "2.0.18"
+tokio = { version = "1.49.0", features = ["full"] }
+tower = { version = "0.5.3", features = ["full"] }
+tower-http = { version = "0.6.8", features = ["full"] }
+tracing = "0.1.44"
+tracing-subscriber = "0.3.22"
+tracing-wasm = "0.2.1"
+uuid = { version = "1.21.0", features = ["v7"] }
+wasm-bindgen = "0.2.108"
+web-sys = { version = "0.3.85", features = ["HtmlElement"] }
 
 # See https://github.com/akesson/cargo-leptos for documentation of all the parameters.
 
@@ -59,6 +61,15 @@ site-root = "target/site"
 # Defaults to pkg
 site-pkg-dir = "pkg"
 
+# The source style file. If it ends with _.sass_ or _.scss_ then it will be compiled by `dart-sass`
+# into CSS and processed by lightning css. When release is set, then it will also be minified.
+#
+# Optional. Env: LEPTOS_STYLE_FILE.
+# style-file = ""
+
+# The tailwind input file.
+#
+# Optional, Activates the tailwind build
 tailwind-input-file = "style/input.css"
 
 # Assets source dir. All files found here will be copied and synchronized to site-root.
@@ -75,12 +86,6 @@ reload-port = 3001
 
 #  The browserlist query used for optimizing the CSS.
 browserquery = "defaults"
-
-# Set by cargo-leptos watch when building with that tool. Controls whether autoreload JS will be included in the head
-watch = false
-
-# The environment Leptos will run in, usually either "DEV" or "PROD"
-env = "DEV"
 
 # The features to use when compiling the bin target
 #

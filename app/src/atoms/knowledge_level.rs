@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum KnowledgeLevel {

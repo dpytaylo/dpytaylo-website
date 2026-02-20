@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 use crate::atoms::anchor::Anchor;
 
@@ -13,7 +13,7 @@ pub fn ErrorPageTemplate(
 
     view! {
         <div class="h-screen flex flex-col">
-            <main class="mx-auto px-2 mt-28 mb-3 w-full max-w-screen-md text-lg sm:text-xl">
+            <main class="mx-auto px-2 mt-28 mb-3 w-full max-w-3xl text-lg sm:text-xl">
                 <h1 class="text-4xl sm:text-6xl font-black leading-tight text-slate-900">{error}</h1>
                 <hr class="my-3 border-gray-300" />
                 <p class="mt-5">{description}</p>

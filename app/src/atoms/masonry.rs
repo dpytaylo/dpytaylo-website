@@ -1,31 +1,51 @@
+use std::iter;
+
 use leptos::html::Div;
-use leptos::*;
-use leptos_use::{use_element_size, UseElementSizeReturn};
+use leptos::prelude::*;
+use leptos_use::utils::Pausable;
+use leptos_use::{UseElementSizeReturn, use_element_size, use_raf_fn};
+use web_sys::HtmlDivElement;
 
 use crate::utils::{CssUnit, ToPixels};
 
 const ONE_COLUMN_MAX_WIDTH_PX: f64 = 640.0; // max-w-screen-sm
 
 #[component]
-pub fn Masonry<T>(
-    #[prop(into)] elements: Vec<HtmlElement<Div>>,
+pub fn Masonry<Gap>(
     #[prop(into)] max_card_width_px: f64,
-    gap: T,
+    gap: Gap,
+    children: ChildrenFragment,
 ) -> impl IntoView
 where
-    T: CssUnit + ToPixels + 'static,
+    Gap: CssUnit + ToPixels + Send + Sync + 'static,
 {
-    let (loaded, set_loaded) = create_signal(false);
-    create_effect(move |_| {
-        request_animation_frame(move || set_loaded(true));
+    let (loaded, set_loaded) = signal(false);
+    let Pausable { pause, .. } = use_raf_fn(move |_| {
+        set_loaded(true);
     });
 
-    let container = create_node_ref::<Div>();
+    Effect::new(move || {
+        if loaded() {
+            pause();
+        }
+    });
 
+    let container = NodeRef::<Div>::new();
     let UseElementSizeReturn { width, .. } = use_element_size(container);
 
+    let (nodes, elements): (Vec<_>, Vec<_>) = children()
+        .nodes
+        .into_iter()
+        .map(|child| {
+            let node_ref = NodeRef::new();
+            (node_ref, view! { <div node_ref=node_ref>{child}</div> })
+        })
+        .unzip();
+
+    let column_cards = RwSignal::new(iter::repeat(0usize).zip(nodes).collect::<Vec<_>>());
+
     let gap_px = gap.to_pixels();
-    let column_count = create_memo(move |_| {
+    let exp_column_count = Memo::new(move |_| {
         let gap_px = gap_px();
 
         ((width() + gap_px.0) / (max_card_width_px + gap_px.0))
@@ -33,28 +53,25 @@ where
             .floor() as usize
     });
 
-    let columns = move || {
-        let elements = elements.clone();
-        let gap = gap.clone();
+    let (column_node_refs, set_column_node_refs) = signal(vec![NodeRef::new()]);
+    Effect::new(move |_| {
+        set_column_node_refs.update(|x| x.resize(exp_column_count(), NodeRef::new()));
+    });
 
-        if !loaded() {
-            return view! {
-                <div
-                    class="flex w-full flex-col"
-                    style=format!("max-width: {ONE_COLUMN_MAX_WIDTH_PX}px; gap: {gap}")
-                >
-                    {elements}
-                </div>
-            }
-            .into_view();
+    let all_node_refs_were_set = move || column_node_refs.read().iter().all(|x| x.get().is_some());
+
+    Effect::new(move || {
+        if !all_node_refs_were_set() {
+            return;
         }
 
-        let count = column_count();
+        let column_nodes = column_node_refs.read();
 
-        let mut heights = vec![0i64; count];
-        let mut columns = vec![vec![]; count];
+        let exp_count = exp_column_count();
+        let mut heights = vec![0i64; exp_count];
 
-        for element in elements {
+        let mut column_cards = column_cards.write_untracked();
+        for (idx, card_node_ref) in column_cards.iter_mut() {
             let i = heights
                 .iter()
                 .enumerate()
@@ -62,31 +79,45 @@ where
                 .unwrap()
                 .0;
 
-            heights[i] += i64::from(element.scroll_height());
-            columns[i].push(element);
-        }
+            let card_node = card_node_ref.get().unwrap();
+            let height = card_node.scroll_height();
 
-        let column_style = move || {
+            let new_column: HtmlDivElement = column_nodes[i].get().unwrap();
+            new_column.append_child(&card_node).unwrap();
+
+            heights[i] += i64::from(height);
+            *idx = i;
+        }
+    });
+
+    let column_style = move || {
+        let count = exp_column_count();
+        move || {
             if count == 1 {
                 format!("gap: {gap}; max-width: {ONE_COLUMN_MAX_WIDTH_PX}px")
             } else {
                 format!("gap: {gap}; max-width: {max_card_width_px}px")
             }
-        };
+        }
+    };
 
-        columns
-            .into_iter()
-            .map(|cards| {
+    let other_columns = move || {
+        column_node_refs
+            .read()
+            .iter()
+            .skip(1)
+            .map(|node_ref| {
+                let node_ref = node_ref.to_owned();
                 view! {
-                    <div
+                     <div
                         class="flex w-full flex-col"
                         style=column_style
+                        node_ref=node_ref
                     >
-                        {cards}
                     </div>
                 }
             })
-            .collect_view()
+            .collect::<Vec<_>>()
     };
 
     view! {
@@ -95,7 +126,14 @@ where
             style=format!("gap: {gap}")
             node_ref=container
         >
-            {columns}
+            <div
+                class="flex w-full flex-col"
+                style=column_style
+                node_ref=*column_node_refs.read_untracked().first().unwrap()
+            >
+                {elements}
+            </div>
+            {other_columns}
         </div>
     }
 }

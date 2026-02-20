@@ -6,25 +6,16 @@
     "rust-analyzer.procMacro.ignored": {
         "leptos_macro": [
             // optional:
-            "component",
+            // "component",
             "server"
         ],
     },
-    
-    "tailwindCSS.includeLanguages": {
-        "rust": "html",
-        "*.rs": "html"
-    },
+
+
+    "tailwindCSS.experimental.configFile": "style/input.css",
 
     "files.associations": {
-        "*.rs": "rust"
+        "*.rs": "rust",
+        "*.css": "tailwindcss"
     },
-
-    "editor.quickSuggestions": {
-        "other": "on",
-        "comments": "on",
-        "strings": true
-    },
-
-    "css.validate": true,
 }

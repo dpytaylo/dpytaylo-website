@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{either::either, prelude::*};
 use strum::{EnumIter, EnumString, IntoEnumIterator, IntoStaticStr};
 use uuid::Uuid;
 
@@ -31,7 +31,7 @@ impl Domain {
 
     fn icon_path(&self) -> &'static str {
         match self {
-            Self::Any => panic!("invalid domain"),
+            Self::Any => unimplemented!("Domain::Any is an invalid domain"),
             Self::Backend => "/assets/icons/server_icon.svg",
             Self::BotDevelopment => "/assets/icons/bot_icon.svg",
             Self::Graphics => "/assets/icons/gpu_icon.svg",
@@ -42,7 +42,7 @@ impl Domain {
 
     fn alt_text(&self) -> &'static str {
         match self {
-            Self::Any => panic!("invalid domain"),
+            Self::Any => unimplemented!("Domain::Any is an invalid domain"),
             Self::Backend => "server icon",
             Self::BotDevelopment => "bot icon",
             Self::Graphics => "gpu icon",
@@ -117,29 +117,31 @@ impl Technology {
 pub fn Technologies() -> impl IntoView {
     #[rustfmt::skip]
     let technologies: Vec<Technology> = vec![
+        Technology::new(Domain::Backend, Language::Python, "fastapi_logo.svg", "FastAPI", KnowledgeLevel::Advanced),
+        Technology::new(Domain::Backend, Language::Rust, "tokio_logo.svg", "Tokio, Axum", KnowledgeLevel::Advanced),
         Technology::new(Domain::Backend, Language::Java, "spring_boot_logo.svg", "Spring Boot", KnowledgeLevel::Intermediate),
-        Technology::new(Domain::Backend, Language::Rust, "tokio_logo.svg", "Tokio, Axum", KnowledgeLevel::Intermediate),
         Technology::new(Domain::Graphics, Language::Cpp, "opengl_logo.svg", "OpenGL", KnowledgeLevel::Beginner),
         Technology::new(Domain::Graphics, Language::Cpp, "vulkan_logo.svg", "Vulkan", KnowledgeLevel::Beginner),
         Technology::new(Domain::Graphics, Language::Rust, "vulkano_logo.webp", "Vulkano", KnowledgeLevel::Beginner),
         Technology::new(Domain::Graphics, Language::Rust, "webgl_logo.svg", "WebGL", KnowledgeLevel::Beginner),
         Technology::new(Domain::BotDevelopment, Language::Python, "discord_py_logo.webp", "discord.py", KnowledgeLevel::Intermediate),
-        Technology::new(Domain::BotDevelopment, Language::Rust, "serenity_logo.webp", "serenity", KnowledgeLevel::Advanced),
+        Technology::new(Domain::BotDevelopment, Language::Rust, "serenity_logo.webp", "serenity", KnowledgeLevel::Intermediate),
         Technology::new(Domain::Science, Language::Python, "numpy_logo.svg", "NumPy", KnowledgeLevel::Beginner),
         Technology::new(Domain::Science, Language::Python, "sympy_logo.svg", "SymPy", KnowledgeLevel::Beginner),
+        Technology::new(Domain::Science, Language::Python, "pandas_logo.svg", "Pandas", KnowledgeLevel::Intermediate),
         Technology::new(Domain::Science, Language::Rust, "nalgebra_logo.svg", "nalgebra", KnowledgeLevel::Beginner),
-        Technology::new(Domain::Fullstack, Language::Rust, "dioxus_logo.webp", "Dioxus", KnowledgeLevel::Beginner),
+        Technology::new(Domain::Fullstack, Language::Rust, "dioxus_logo.webp", "Dioxus", KnowledgeLevel::Intermediate),
         Technology::new(Domain::Fullstack, Language::Rust, "leptos_logo.svg", "Leptos", KnowledgeLevel::Advanced),
         Technology::new(Domain::Fullstack, Language::Rust, "yew_logo.svg", "Yew", KnowledgeLevel::Beginner),
         Technology::new(Domain::Fullstack, Language::Css, "tailwindcss_logo.svg", "Tailwind CSS", KnowledgeLevel::Intermediate),
     ];
 
-    let (domain, set_domain) = create_signal(Domain::Any);
+    let (domain, set_domain) = signal(Domain::Any);
     let domain_options = Domain::iter()
         .map(|val| (val.clone(), val.to_string()))
         .collect::<Vec<_>>();
 
-    let (language, set_language) = create_signal(Language::Any);
+    let (language, set_language) = signal(Language::Any);
     let language_options = vec![
         (Language::Any, "All languages"),
         (Language::Cpp, "C++"),
@@ -149,7 +151,7 @@ pub fn Technologies() -> impl IntoView {
         (Language::Rust, "Rust"),
     ];
 
-    let each = create_memo(move |_| {
+    let each = Memo::new(move |_| {
         let domain = domain();
         let language = language();
 
@@ -202,14 +204,14 @@ pub fn Technologies() -> impl IntoView {
     view! {
         <div class="flex justify-center">
             <Select
-                class="p-1 w-full max-w-40 border rounded-md"
+                class="p-1 w-full max-w-40 border border-gray-200 rounded-md"
                 options=domain_options
                 selected=domain
                 set_selected=set_domain
             />
 
             <Select
-                class="p-1 w-full max-w-48 border rounded-md"
+                class="p-1 w-full max-w-48 border border-gray-200 rounded-md"
                 options=language_options
                 selected=language
                 set_selected=set_language
@@ -224,7 +226,6 @@ pub fn Technologies() -> impl IntoView {
             />
             <Show
                 when=move || { each().is_empty() }
-                fallback=|| view! {}
             >
                 <p class="text-lg text-center">"Nothing was found."</p>
             </Show>
@@ -237,11 +238,11 @@ fn Technology(technology: Technology) -> impl IntoView {
     let technology_alt = format!("{} logo", technology.technology_name);
     let technology_logo_path = format!("/assets/logos/{}", technology.technology_logo);
 
-    let level = match technology.level {
+    let level = either!(technology.level,
         KnowledgeLevel::Beginner => view! { <BeginnerLevel/> },
         KnowledgeLevel::Intermediate => view! { <IntermediateLevel/> },
         KnowledgeLevel::Advanced => view! { <AdvancedLevel/> },
-    };
+    );
 
     view! {
         <li class="flex justify-between">

@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use pet_projects::PetProjects;
 use short_overview::ShortOverview;
 use technologies::Technologies;
@@ -9,14 +9,15 @@ use crate::{
         footer::Footer,
         header::{CurrentPage, Header},
     },
-    pages::contacts::CONTACTS_URL,
+    pages::{about_me::work_experience::WorkExperience, contacts::CONTACTS_URL},
 };
 
 mod pet_projects;
 mod short_overview;
 mod technologies;
+mod work_experience;
 
-pub const ABOUT_ME_URL: &str = "/about_me";
+pub const ABOUT_ME_URL: &str = "/about-me";
 
 #[component]
 pub fn AboutMe() -> impl IntoView {
@@ -24,20 +25,20 @@ pub fn AboutMe() -> impl IntoView {
         <Header current_page=CurrentPage::AboutMe />
         <main>
             <section class="pt-7 pb-12">
-                <div class="mx-auto max-w-screen-lg">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-2">
                         <div class="text-center">
                             <h1 class="text-5xl font-black leading-[1.1]">
                                 <span
                                     class="
                                         text-transparent bg-clip-text
-                                        bg-gradient-to-r from-[rgba(124,78,238,255)] via-purple-500 to-[rgba(211,77,188,255)]
+                                        bg-linear-to-r from-[rgba(124,78,238,255)] via-purple-500 to-[rgba(211,77,188,255)]
                                     "
                                 >
                                     "Dmitry Pytaylo"
                                 </span>
                             </h1>
-                            <p class="mt-1 text-2xl">"Junior Backend Developer"</p>
+                            <p class="mt-1 text-2xl">"Backend Developer"</p>
                         </div>
 
                         <p class="sm:hidden mt-2 text-xl text-center"><Anchor href="/contacts">"Contacts"</Anchor></p>
@@ -52,11 +53,11 @@ pub fn AboutMe() -> impl IntoView {
                             <span>"Lithuania, Vilnius"</span>
                         </div>
 
-                        <div class="mx-auto mt-5 sm:mt-10 px-7 py-7 sm:px-10 sm:py-8 max-w-screen-lg rounded-xl bg-slate-100">
+                        <div class="mx-auto mt-5 sm:mt-10 px-7 py-7 sm:px-10 sm:py-8 max-w-5xl rounded-xl bg-slate-100">
                             <p class="text-2xl font-semibold">"Overview"</p>
                             <p class="mt-1 sm:text-lg">
-                                "As a Junior Backend Developer with extensive programming experience since 2016, I specialize in "
-                                "building reliable and efficient systems. My expertise in Java, Rust, and Python enables me to develop "
+                                "As a Backend Developer with extensive programming experience since 2016, I specialize in "
+                                "building reliable and efficient systems. My expertise in Python, Rust, and Java enables me to develop "
                                 "scalable, high-performance systems from rapid prototypes and execute complex low-level optimizations. "
                                 "My professional background ensures the delivery of robust and high-quality solutions."
                             </p>
@@ -66,17 +67,17 @@ pub fn AboutMe() -> impl IntoView {
             </section>
 
             <section class="mx-1 pb-12">
-                <div class="mx-auto max-w-screen-lg">
+                <div class="mx-auto max-w-5xl">
                     <h2 class="mb-5 text-2xl text-center">"My primary programming stack consists of"</h2>
                     <ShortOverview/>
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-2">
                         <h2 class="mb-5 text-3xl text-center">"Also, I have experience in these domains:"</h2>
-                        <div class="mx-auto flex flex-col gap-14 max-w-screen-md">
+                        <div class="mx-auto flex flex-col gap-14 max-w-3xl">
                             <Technologies/>
 
                             <p class="mt-8 mb-5 text-2xl text-center">
@@ -89,76 +90,79 @@ pub fn AboutMe() -> impl IntoView {
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
+            <section class="py-16 bg-linear-to-b from-gray-50">
                 <div class="mx-2">
-                    <div class="mx-auto max-w-screen-lg">
+                    <div class="mx-auto max-w-5xl">
                         <h2 class="flex justify-center items-center text-4xl tracking-tighter">
                             <img src="/assets/icons/work.svg" class="inline-block w-10 h-10 mr-2" />
                             "My working experience"
                         </h2>
                     </div>
 
-                    <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-screen-md bg-white">
-                        <div class="p-6 border rounded-xl shadow-md">
-                            <div class="flex justify-between text-lg">
-                                <div>
-                                    <p class="text-lg font-bold">"Junior Java Web Developer"</p>
-                                    <ExtAnchor href="https://ehu.epambachelor.com/">"ESDE"</ExtAnchor>
-                                </div>
-                                <p>"Dec 2023 - May 2024"</p>
-                            </div>
-
-                            <p class="mt-2 text-lg">"Developed Student's Hub system for own university under the EPAM specialists mentoring."</p>
-                            <ol class="mt-2 list-disc list-inside text-gray-600">
-                                <li>"Inner freelance exchange system for university that works between students and companies."</li>
-                                <li>"Worked as a backend developer in the team of 3 people. Used technologies: Spring Boot, Hybernate, Liquibase, PostgreSQL."</li>
-                            </ol>
-                        </div>
-                    </div>
+                    <WorkExperience/>
                 </div>
             </section>
 
             <PetProjects/>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
-                    <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
-                        <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
-                        "My education"
-                    </h2>
-                    <p class="mx-1 mb-4 text-center text-xl">
-                        "Currently, I'm in my second year of studying Computer Science (Java) at "
-                        <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/ESDE"</ExtAnchor>
-                        "."
-                    </p>
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-2">
+                    <div class="mx-auto max-w-5xl">
+                        <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
+                            <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
+                            "My education"
+                        </h2>
+                        <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-3xl bg-white">
+                            <div class="p-6 border border-gray-200 rounded-xl shadow-md">
+                                <div class="mx-auto px-2 max-w-3xl text-lg">
+                                    <div class="flex justify-between gap-2">
+                                        <div class="flex-none">
+                                            <img src="/assets/logos/sdc_logo.jpg" class="inline-block mr-1 w-12 h-12 sm:w-16 sm:h-16" alt="Logo of EHU SDC" />
+                                        </div>
+                                        <div class="px-4 flex-auto content-center">
+                                            <p class="font-bold">"EHU SDC"</p>
+                                            <p class="text-base">"Bachelor's degree, Computer Science"</p>
+                                        </div>
+                                        <p class="text-base sm:text-lg">
+                                            <span class="whitespace-nowrap">"2022 —"</span>" 2026"
+                                        </p>
+                                    </div>
+                                    <div class="text-base">
+                                        <p class="mt-4 mb-2">"My university was launched as the EHU EPAM School of Digital Engineering."</p>
+                                        <div>
+                                            <p class="mx-1 p-5 max-w-3xl rounded-2xl text-sm bg-slate-100">
+                                                "\"The EHU/EPAM School of Digital Engineering is an experimental unit of EPAM, aimed at training
+                                                bachelor's and master's degree students in partnership with traditional universities or new educational institutions.\""
+                                            </p>
 
-                    <div class="mx-auto w-fit">
-                        <p class="mx-1 p-5 max-w-screen-md rounded-2xl text-base bg-slate-100">
-                            "\"The EHU/EPAM School of Digital Engineering is an experimental unit of EPAM, aimed at training
-                            bachelor's and master's degree students in partnership with traditional universities or new educational institutions.\""
-                        </p>
+                                            <p class="text-center text-sm text-gray-600">
+                                                "Origin: the official "
+                                                <ExtAnchor href="http://web.archive.org/web/20230613020858/https://ehu.epambachelor.com/">"EHU/ESDE website"</ExtAnchor>
+                                                "."
+                                            </p>
+                                        </div>
 
-                        <p class="text-center text-sm text-gray-600">
-                            "Origin: the official "
-                            <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/ESDE website"</ExtAnchor>
-                            "."
-                        </p>
+                                        <p class="mt-3">"Over time, it smoothly transitioned into the EHU School of Digital Competences."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                         <img src="/assets/icons/description_icon.svg" class="inline-block w-10 h-10 mr-2" />
                         "My certificates"
                     </h2>
 
                     <div class="mx-2">
-                        <div class="mx-auto p-5 max-w-screen-md border rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
+                        <div class="mx-auto p-5 max-w-3xl border border-gray-200 rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
                             <img
                                 src="/assets/summer_camp/esde_summer_camp_2023_certificate_screenshot.webp"
-                                class="block mx-auto mb-5 hmw:mb-0 h-96 border"
+                                class="block mx-auto mb-5 hmw:mb-0 h-96 border border-gray-200"
                                 alt="Image of the certificate"
                             />
                             <div class="mx-auto w-fit text-base">
@@ -195,8 +199,8 @@ pub fn AboutMe() -> impl IntoView {
                 </div>
             </section>
 
-            <section class="py-36 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-36 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-5 hmw:mx-0">
                         <p class="text-center text-2xl hmw:text-2xl">
                             "If you have any further questions, please "

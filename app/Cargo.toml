@@ -1,7 +1,8 @@
 [package]
 name = "app"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -17,6 +18,7 @@ leptos-use.workspace = true
 strum.workspace = true
 tracing.workspace = true
 uuid.workspace = true
+web-sys.workspace = true
 
 http.workspace = true
 cfg-if.workspace = true
@@ -24,7 +26,7 @@ thiserror.workspace = true
 
 [features]
 default = []
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "uuid/js"]
+hydrate = ["leptos/hydrate", "uuid/js"]
 ssr = ["dep:chrono", "dep:leptos_axum", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "leptos-use/ssr"]
 
 [dev-dependencies]

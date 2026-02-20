@@ -1,8 +1,9 @@
 # The dpytaylo website
 
-The dpytaylo website is a personal blog that I use to document my projects and share insights about various topics. The website is built using Rust and Leptos.
+The dpytaylo website is a personal blog that I use to document my projects and share insights about various topics.
+The website is built using Rust and Leptos.
 
-Feel free to explore the website and learn more about my work!
+Feel free to explore the website and learn more about my projects and work experience.
 
 ## Environment variables
 

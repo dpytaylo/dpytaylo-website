@@ -1,35 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-    @media (max-width: 899px) {
-        #menu_button:checked ~ .menu-button-label {
-            @apply block absolute top-1 right-0 bg-close-icon
-        }
-        
-        #menu_button:checked ~ .menu-open-handler {
-            @apply absolute left-auto translate-x-0 top-0 right-0 w-80 h-screen flex flex-col items-stretch bg-slate-50 shadow-[-10px_0_60px_rgba(0,0,0,0.3)] justify-between
-        }
+@theme {
+  --background-image-menu-icon: url("/assets/menu.svg");
+  --background-image-close-icon: url("/assets/close.svg");
+  --background-image-mail-icon: url("/assets/mail.svg");
+  --background-image-github-icon: url("/assets/github.svg");
+  --background-image-telegram-icon: url("/assets/telegram.svg");
+  --background-image-discord-icon: url("/assets/discord.svg");
 
-        #menu_button:checked ~ .menu-open-handler > ul {
-            @apply flex flex-col text-center text-xl mt-12
-        }
+  --min-width-56: 14rem;
 
-        #menu_button:checked ~ .menu-open-handler > ul > li {
-            @apply ml-0
-        }
+  --breakpoint-hmw: 900px;
 
-        #menu_button:checked ~ .menu-open-handler > ul > li > a {
-            @apply block pt-2 pb-2 w-full border-t border-gray-300
-        }
+  --font-inter: "Inter", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 
-        #menu_button:checked ~ .menu-open-handler > ul > li:last-child > a {
-            @apply block pt-2 pb-2 w-full border-t border-b border-gray-300
-        }
+  --background-size-300: 300%;
 
-        #menu_button:checked ~ .menu-open-handler > ul > li:hover > a {
-            @apply bg-slate-100
-        }
-    }
+  --animate-gradient: animatedgradient 9s ease infinite alternate;
+}
+
+@keyframes animatedgradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (max-width: 899px) {
+  #menu_button:checked ~ .menu-button-label {
+    @apply mx-6 block absolute top-1 right-0 bg-close-icon;
+  }
+
+  #menu_button:checked ~ .menu-open-handler {
+    @apply absolute top-0 right-0 left-auto translate-x-0 w-80 h-screen
+      flex flex-col items-stretch justify-between
+      bg-slate-50 shadow-[-10px_0_60px_rgba(0,0,0,0.3)];
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul {
+    @apply flex flex-col text-center text-xl mt-12;
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul > li {
+    @apply mx-0;
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul > li > a {
+    @apply block w-full py-2 border-t border-gray-300;
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul > li:last-child > a {
+    @apply block w-full py-2 border-t border-b border-gray-300;
+  }
+
+  #menu_button:checked ~ .menu-open-handler > ul > li:hover > a {
+    @apply bg-slate-100;
+  }
 }

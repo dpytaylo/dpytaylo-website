@@ -84,8 +84,8 @@ pub fn PetProjects() -> impl IntoView {
     .collect();
 
     view! {
-        <section class="px-2 py-16 bg-gradient-to-b from-gray-50">
-            <div class="mx-auto max-w-screen-lg">
+        <section class="px-2 py-16 bg-linear-to-b from-gray-50">
+            <div class="mx-auto max-w-5xl">
                 <h1 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                     <img src="/assets/icons/settings_heart.svg" class="inline-block w-10 h-10 mr-2" />
                     "My pet projects"

@@ -24,7 +24,7 @@ pub fn Contacts() -> impl IntoView {
                         <ExtAnchor
                             href="mailto:dpytaylo@gmail.com"
                             class="
-                                flex py-3 px-8 max-w-screen-md justify-center items-center
+                                flex py-3 px-8 max-w-3xl justify-center items-center
                                 bg-zinc-100 hover:bg-zinc-200 rounded-xl cursor-pointer gap-3
                                 transition-colors
                             "
@@ -37,7 +37,7 @@ pub fn Contacts() -> impl IntoView {
                         <ExtAnchor
                             href="https://www.linkedin.com/in/dmitry-pytaylo-a216bb261/"
                             class="
-                                flex py-3 px-8 max-w-screen-md justify-center items-center
+                                flex py-3 px-8 max-w-3xl justify-center items-center
                                 bg-zinc-100 hover:bg-zinc-200 rounded-xl cursor-pointer gap-3
                                 transition-colors
                             "
@@ -50,7 +50,7 @@ pub fn Contacts() -> impl IntoView {
                         <ExtAnchor
                             href="https://github.com/dpytaylo"
                             class="
-                                flex py-3 px-8 max-w-screen-md justify-center items-center
+                                flex py-3 px-8 max-w-3xl justify-center items-center
                                 bg-zinc-100 hover:bg-zinc-200 rounded-xl cursor-pointer gap-3
                                 transition-colors
                             "
@@ -63,7 +63,7 @@ pub fn Contacts() -> impl IntoView {
                         <ExtAnchor
                             href="https://t.me/dpytaylo"
                             class="
-                                flex py-3 px-8 max-w-screen-md justify-center items-center
+                                flex py-3 px-8 max-w-3xl justify-center items-center
                                 bg-zinc-100 hover:bg-zinc-200 rounded-xl cursor-pointer gap-3
                                 transition-colors
                             "
@@ -76,7 +76,7 @@ pub fn Contacts() -> impl IntoView {
                         <ExtAnchor
                             href="https://discord.com/users/362258590926372864"
                             class="
-                                flex py-3 px-8 max-w-screen-md justify-center items-center
+                                flex py-3 px-8 max-w-3xl justify-center items-center
                                 bg-zinc-100 hover:bg-zinc-200 rounded-xl cursor-pointer gap-3
                                 transition-colors
                             "

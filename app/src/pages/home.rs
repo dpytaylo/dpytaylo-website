@@ -20,7 +20,7 @@ pub fn HomePage() -> impl IntoView {
                 <div class="relative top-[50%] -translate-y-1/2 text-center">
                     <h1 class="text-6xl font-semibold leading-[1.1]">
                         <span class="
-                            bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+                            bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500
                             font-black text-transparent bg-clip-text bg-300% animate-gradient
                         ">
                             "Dmitry Pytaylo"

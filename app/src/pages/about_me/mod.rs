@@ -24,14 +24,14 @@ pub fn AboutMe() -> impl IntoView {
         <Header current_page=CurrentPage::AboutMe />
         <main>
             <section class="pt-7 pb-12">
-                <div class="mx-auto max-w-screen-lg">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-2">
                         <div class="text-center">
                             <h1 class="text-5xl font-black leading-[1.1]">
                                 <span
                                     class="
                                         text-transparent bg-clip-text
-                                        bg-gradient-to-r from-[rgba(124,78,238,255)] via-purple-500 to-[rgba(211,77,188,255)]
+                                        bg-linear-to-r from-[rgba(124,78,238,255)] via-purple-500 to-[rgba(211,77,188,255)]
                                     "
                                 >
                                     "Dmitry Pytaylo"
@@ -52,7 +52,7 @@ pub fn AboutMe() -> impl IntoView {
                             <span>"Lithuania, Vilnius"</span>
                         </div>
 
-                        <div class="mx-auto mt-5 sm:mt-10 px-7 py-7 sm:px-10 sm:py-8 max-w-screen-lg rounded-xl bg-slate-100">
+                        <div class="mx-auto mt-5 sm:mt-10 px-7 py-7 sm:px-10 sm:py-8 max-w-5xl rounded-xl bg-slate-100">
                             <p class="text-2xl font-semibold">"Overview"</p>
                             <p class="mt-1 sm:text-lg">
                                 "As a Backend Developer with extensive programming experience since 2016, I specialize in "
@@ -66,17 +66,17 @@ pub fn AboutMe() -> impl IntoView {
             </section>
 
             <section class="mx-1 pb-12">
-                <div class="mx-auto max-w-screen-lg">
+                <div class="mx-auto max-w-5xl">
                     <h2 class="mb-5 text-2xl text-center">"My primary programming stack consists of"</h2>
                     <ShortOverview/>
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-2">
                         <h2 class="mb-5 text-3xl text-center">"Also, I have experience in these domains:"</h2>
-                        <div class="mx-auto flex flex-col gap-14 max-w-screen-md">
+                        <div class="mx-auto flex flex-col gap-14 max-w-3xl">
                             <Technologies/>
 
                             <p class="mt-8 mb-5 text-2xl text-center">
@@ -89,16 +89,16 @@ pub fn AboutMe() -> impl IntoView {
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
+            <section class="py-16 bg-linear-to-b from-gray-50">
                 <div class="mx-2">
-                    <div class="mx-auto max-w-screen-lg">
+                    <div class="mx-auto max-w-5xl">
                         <h2 class="flex justify-center items-center text-4xl tracking-tighter">
                             <img src="/assets/icons/work.svg" class="inline-block w-10 h-10 mr-2" />
                             "My working experience"
                         </h2>
                     </div>
 
-                    <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-screen-md bg-white">
+                    <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-3xl bg-white">
                         <div class="p-6 border border-gray-200 rounded-xl shadow-md">
                             <div class="flex justify-between text-lg">
                                 <div>
@@ -120,8 +120,8 @@ pub fn AboutMe() -> impl IntoView {
 
             <PetProjects/>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                         <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
                         "My education"
@@ -134,7 +134,7 @@ pub fn AboutMe() -> impl IntoView {
                     </p>
 
                     <div class="mx-auto w-fit">
-                        <p class="mx-1 p-5 max-w-screen-md rounded-2xl text-base bg-slate-100">
+                        <p class="mx-1 p-5 max-w-3xl rounded-2xl text-base bg-slate-100">
                             "\"The EHU/EPAM School of Digital Engineering is an experimental unit of EPAM, aimed at training
                             bachelor's and master's degree students in partnership with traditional universities or new educational institutions.\""
                         </p>
@@ -148,15 +148,15 @@ pub fn AboutMe() -> impl IntoView {
                 </div>
             </section>
 
-            <section class="py-16 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-16 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
                         <img src="/assets/icons/description_icon.svg" class="inline-block w-10 h-10 mr-2" />
                         "My certificates"
                     </h2>
 
                     <div class="mx-2">
-                        <div class="mx-auto p-5 max-w-screen-md border border-gray-200 rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
+                        <div class="mx-auto p-5 max-w-3xl border border-gray-200 rounded-xl shadow-md hmw:grid hmw:grid-cols-2 bg-white">
                             <img
                                 src="/assets/summer_camp/esde_summer_camp_2023_certificate_screenshot.webp"
                                 class="block mx-auto mb-5 hmw:mb-0 h-96 border border-gray-200"
@@ -196,8 +196,8 @@ pub fn AboutMe() -> impl IntoView {
                 </div>
             </section>
 
-            <section class="py-36 bg-gradient-to-b from-gray-50">
-                <div class="mx-auto max-w-screen-lg">
+            <section class="py-36 bg-linear-to-b from-gray-50">
+                <div class="mx-auto max-w-5xl">
                     <div class="mx-5 hmw:mx-0">
                         <p class="text-center text-2xl hmw:text-2xl">
                             "If you have any further questions, please "

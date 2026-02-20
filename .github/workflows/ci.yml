@@ -22,22 +22,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Rustup
-        run: rustup update nightly && rustup default nightly && rustup component add clippy && rustup component add rustfmt
-      - name: Clippy
-        run: cargo clippy --all --verbose
-      - name: Format
-        run: cargo fmt --all --check --verbose
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose
-
   ci-pass:
     name: CI is green
     runs-on: ubuntu-latest

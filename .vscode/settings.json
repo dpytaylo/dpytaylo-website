@@ -10,4 +10,12 @@
             "server"
         ],
     },
+
+
+    "tailwindCSS.experimental.configFile": "style/input.css",
+
+    "files.associations": {
+        "*.rs": "rust",
+        "*.css": "tailwindcss"
+    },
 }

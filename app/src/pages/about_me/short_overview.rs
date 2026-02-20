@@ -21,7 +21,7 @@ pub fn ShortOverview() -> impl IntoView {
     ]
     .into_iter()
     .map(|val| view! {
-        <div class="flex-shrink-0 w-60 p-2 border border-gray-200 rounded shadow-md bg-white">
+        <div class="shrink-0 w-60 p-2 border border-gray-200 rounded shadow-md bg-white">
             <img src=val.0 class="mx-auto mt-2 mb-4 object-contain w-24 h-24" alt=val.1 />
             <p class="mb-2">
                 {val.2}

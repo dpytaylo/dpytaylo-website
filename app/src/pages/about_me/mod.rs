@@ -9,12 +9,13 @@ use crate::{
         footer::Footer,
         header::{CurrentPage, Header},
     },
-    pages::contacts::CONTACTS_URL,
+    pages::{about_me::work_experience::WorkExperience, contacts::CONTACTS_URL},
 };
 
 mod pet_projects;
 mod short_overview;
 mod technologies;
+mod work_experience;
 
 pub const ABOUT_ME_URL: &str = "/about-me";
 
@@ -98,52 +99,54 @@ pub fn AboutMe() -> impl IntoView {
                         </h2>
                     </div>
 
-                    <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-3xl bg-white">
-                        <div class="p-6 border border-gray-200 rounded-xl shadow-md">
-                            <div class="flex justify-between text-lg">
-                                <div>
-                                    <p class="text-lg font-bold">"Junior Java Web Developer"</p>
-                                    <ExtAnchor href="https://ehu.epambachelor.com/">"ESDE"</ExtAnchor>
-                                </div>
-                                <p>"Dec 2023 - May 2024"</p>
-                            </div>
-
-                            <p class="mt-2 text-lg">"Developed Student's Hub system for own university under the EPAM specialists mentoring."</p>
-                            <ol class="mt-2 list-disc list-inside text-gray-600">
-                                <li>"Inner freelance exchange system for university that works between students and companies."</li>
-                                <li>"Worked as a backend developer in the team of 3 people. Used technologies: Spring Boot, Hibernate, Liquibase, PostgreSQL."</li>
-                            </ol>
-                        </div>
-                    </div>
+                    <WorkExperience/>
                 </div>
             </section>
 
             <PetProjects/>
 
             <section class="py-16 bg-linear-to-b from-gray-50">
-                <div class="mx-auto max-w-5xl">
-                    <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
-                        <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
-                        "My education"
-                    </h2>
-                    <p class="mx-1 mb-4 text-center text-xl">
-                        <img src="/assets/logos/sdc_logo.jpg" class="inline-block mr-1 w-12 h-12" alt="Logo of EHU/SDC" />
-                        "Currently, I'm in my second year of studying Computer Science (Java) at "
-                        <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/SDC"</ExtAnchor>
-                        "."
-                    </p>
+                <div class="mx-2">
+                    <div class="mx-auto max-w-5xl">
+                        <h2 class="mb-5 flex justify-center items-center text-4xl tracking-tighter">
+                            <img src="/assets/icons/school_icon.svg" class="inline-block w-10 h-10 mr-2" />
+                            "My education"
+                        </h2>
+                        <div class="mx-auto mt-6 flex flex-col gap-3 text-left max-w-3xl bg-white">
+                            <div class="p-6 border border-gray-200 rounded-xl shadow-md">
+                                <div class="mx-auto px-2 max-w-3xl text-lg">
+                                    <div class="flex justify-between gap-2">
+                                        <div class="flex-none">
+                                            <img src="/assets/logos/sdc_logo.jpg" class="inline-block mr-1 w-12 h-12 sm:w-16 sm:h-16" alt="Logo of EHU SDC" />
+                                        </div>
+                                        <div class="px-4 flex-auto content-center">
+                                            <p class="font-bold">"EHU SDC"</p>
+                                            <p class="text-base">"Bachelor's degree, Computer Science"</p>
+                                        </div>
+                                        <p class="text-base sm:text-lg">
+                                            <span class="whitespace-nowrap">"2022 —"</span>" 2026"
+                                        </p>
+                                    </div>
+                                    <div class="text-base">
+                                        <p class="mt-4 mb-2">"My university was launched as the EHU EPAM School of Digital Engineering."</p>
+                                        <div>
+                                            <p class="mx-1 p-5 max-w-3xl rounded-2xl text-sm bg-slate-100">
+                                                "\"The EHU/EPAM School of Digital Engineering is an experimental unit of EPAM, aimed at training
+                                                bachelor's and master's degree students in partnership with traditional universities or new educational institutions.\""
+                                            </p>
 
-                    <div class="mx-auto w-fit">
-                        <p class="mx-1 p-5 max-w-3xl rounded-2xl text-base bg-slate-100">
-                            "\"The EHU/EPAM School of Digital Engineering is an experimental unit of EPAM, aimed at training
-                            bachelor's and master's degree students in partnership with traditional universities or new educational institutions.\""
-                        </p>
+                                            <p class="text-center text-sm text-gray-600">
+                                                "Origin: the official "
+                                                <ExtAnchor href="http://web.archive.org/web/20230613020858/https://ehu.epambachelor.com/">"EHU/ESDE website"</ExtAnchor>
+                                                "."
+                                            </p>
+                                        </div>
 
-                        <p class="text-center text-sm text-gray-600">
-                            "Origin: the official "
-                            <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/ESDE website"</ExtAnchor>
-                            "."
-                        </p>
+                                        <p class="mt-3">"Over time, it smoothly transitioned into the EHU School of Digital Competences."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

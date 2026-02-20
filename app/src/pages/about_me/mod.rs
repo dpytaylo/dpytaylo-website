@@ -37,7 +37,7 @@ pub fn AboutMe() -> impl IntoView {
                                     "Dmitry Pytaylo"
                                 </span>
                             </h1>
-                            <p class="mt-1 text-2xl">"Junior Backend Developer"</p>
+                            <p class="mt-1 text-2xl">"Backend Developer"</p>
                         </div>
 
                         <p class="sm:hidden mt-2 text-xl text-center"><Anchor href="/contacts">"Contacts"</Anchor></p>
@@ -55,8 +55,8 @@ pub fn AboutMe() -> impl IntoView {
                         <div class="mx-auto mt-5 sm:mt-10 px-7 py-7 sm:px-10 sm:py-8 max-w-screen-lg rounded-xl bg-slate-100">
                             <p class="text-2xl font-semibold">"Overview"</p>
                             <p class="mt-1 sm:text-lg">
-                                "As a Junior Backend Developer with extensive programming experience since 2016, I specialize in "
-                                "building reliable and efficient systems. My expertise in Java, Rust, and Python enables me to develop "
+                                "As a Backend Developer with extensive programming experience since 2016, I specialize in "
+                                "building reliable and efficient systems. My expertise in Python, Rust, and Java enables me to develop "
                                 "scalable, high-performance systems from rapid prototypes and execute complex low-level optimizations. "
                                 "My professional background ensures the delivery of robust and high-quality solutions."
                             </p>
@@ -127,8 +127,9 @@ pub fn AboutMe() -> impl IntoView {
                         "My education"
                     </h2>
                     <p class="mx-1 mb-4 text-center text-xl">
+                        <img src="/assets/logos/sdc_logo.jpg" class="inline-block mr-1 w-12 h-12" alt="Logo of EHU/SDC" />
                         "Currently, I'm in my second year of studying Computer Science (Java) at "
-                        <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/ESDE"</ExtAnchor>
+                        <ExtAnchor href="https://ehu.epambachelor.com/">"EHU/SDC"</ExtAnchor>
                         "."
                     </p>
 

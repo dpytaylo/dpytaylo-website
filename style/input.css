@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-@source "*.html";
-@source "./app/src/**/*.rs";
-
 @theme {
   --background-image-menu-icon: url("/assets/menu.svg");
   --background-image-close-icon: url("/assets/close.svg");
